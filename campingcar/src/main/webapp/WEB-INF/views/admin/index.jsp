@@ -23,9 +23,15 @@
 	<%@ include file="include/sidebar.jsp" %>
 	<!-- // #sidebar end -->
 	
+	<!-- #topmenu start -->
+	<%@ include file="include/topmenu.jsp" %>
+	<!-- // #topmenu end -->	
+	
 	<div id="wrap">
 <!-- ================================================== -->
-내용
+
+관리자 메인
+
 <!-- ================================================== -->
 	</div><!-- // #wrap end -->
 </div><!-- // #container end -->

@@ -31,9 +31,13 @@
 }
 
 body,div,p,span,a,input,textarea,ul,ol,li,h1,h2,h3,h4,h5 {font-family: 'Noto Sans KR', sans-serif; font-weight:300; list-style:none; margin:0; padding:0;}
-a:link {text-decoration:none;}
+a:link {text-decoration:none; color:#1e1e1e;}
+a:hover {text-decoration:none; color:#1e1e1e;}
+a:active {text-decoration:none; color:#1e1e1e;}
+a:visited {text-decoration:none; color:#1e1e1e;}
 
 table.center th, table.center td {text-align:center;}
+.table>:not(caption)>*>* {padding: 0.7rem 0.7rem;}
 
-.left {text-align:left;}
+.left {text-align:left !important;}
 .right {text-align:right !important;}

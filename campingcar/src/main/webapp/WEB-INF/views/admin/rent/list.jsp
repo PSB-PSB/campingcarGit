@@ -5,6 +5,7 @@
 <%@ page import="java.util.*" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
+<c:set var="title" value="목록형 예약 현황" />
 
 <!DOCTYPE html>
 <html>
@@ -13,9 +14,6 @@
 <title>자바 캠핑카 - 관리자 페이지</title>
 <%@ include file="../../include/plugin.jsp" %>
 <link href="${contextPath}/resources/css/admin/admin_all.css" rel="stylesheet" />
-<style>
-#topmenu {height:50px; width:2000px; background:#f0f0f0; position:fixed; padding:0px 0px 0px 300px;}
-</style>
 </head>
 <body>
 
@@ -24,15 +22,12 @@
 	<%@ include file="../include/sidebar.jsp" %>
 	<!-- // #sidebar end -->
 	
-	<div id="topmenu">
-		<h2>예약 목록</h2>
-		<div id="gnb"></div>
-	</div>
+	<!-- #topmenu start -->
+	<%@ include file="../include/topmenu.jsp" %>
+	<!-- // #topmenu end -->
 	
 	<div id="wrap">
 <!-- ================================================== -->
-
-<h2>예약 목록</h2>
 
 <div class="board_list">
 <table class="table table-bordered table-hover center">
