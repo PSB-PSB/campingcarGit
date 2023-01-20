@@ -22,6 +22,10 @@
 	<!-- #sidebar start -->
 	<%@ include file="../include/sidebar.jsp" %>
 	<!-- // #sidebar end -->
+
+	<!-- #topmenu start -->
+	<%@ include file="../include/topmenu.jsp" %>
+	<!-- // #topmenu end -->
 	
 	<div id="wrap">
 <!-- ================================================== -->
