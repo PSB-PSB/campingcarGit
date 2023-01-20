@@ -1,0 +1,31 @@
+@charset "UTF-8";
+
+.state {font-weight:bold;}
+.state.type01 {color:#e67200;}
+.state.type02 {color:#00c63d;}
+.state.type03 {color:#0d6efd;}
+.state.type04 {color:#969696;}
+
+th.state.type01 {background:#ffe5d5; font-weight:normal; border:1px solid #ffc6a4;}
+th.state.type02 {background:#ffdfcc; font-weight:normal;}
+th.state.type03 {background:#ffdfcc; font-weight:normal;}
+th.state.type04 {background:#ffdfcc; font-weight:normal;}
+th.state span {font-weight:bold !important;}
+
+.board_list thead th {font-weight:bold;}
+
+.calendar h3 {text-align:center; padding:0px 0px 60px 0px;}
+.calendar th, .calendar td {text-align:center;}
+.calendar tbody p {padding:10px 0px 10px 0px;}
+.calendar .d-grid {min-height:240px;}
+
+.board_write .input-group {margin:0px 0px 10px 0px;}
+.board_write .input-group-text {width:200px; text-align:center;}
+.daterangepicker td.off {color:#dcdcdc;}
+.daterangepicker .calendar-table th:nth-last-child(1){color:#0060ef;}
+.daterangepicker .calendar-table tbody tr td:nth-last-child(1){color:#0060ef;}
+.daterangepicker .calendar-table th:nth-child(1){color:#ff0000;}
+.daterangepicker .calendar-table tbody tr td:nth-child(1){color:#ff0000;}
+.daterangepicker tbody tr td.disabled {text-decoration:none; color:#dcdcdc !important;}
+
+

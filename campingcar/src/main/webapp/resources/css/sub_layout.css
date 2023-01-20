@@ -1,0 +1,7 @@
+@charset "UTF-8";
+
+body {background:url("/campingcar/resources/img/inc/bg01.jpg") no-repeat center top;}
+#body_head {clear:both; height:500px;}
+#submenu {height:120px;}
+#wrap {width:1200px; background:rgba(255, 255, 255, 0.9); margin:0px auto;}
+#body_contents {min-height:600px; padding:120px 0px 120px 0px;}

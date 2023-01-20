@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.ccrent.mapper.CarMapper">
+
+	<select id="selectTime" resultType="String">
+		select now()
+	</select>
+	
+	<insert id="insert" parameterType="kr.co.ccrent.domain.CarVO">
+		insert into car (car_rentcompid, car_modelname, car_name, car_number, car_capa, car_option, car_detail, car_rentprice, car_regdate) values (#{car_rentcompid}, #{car_modelname}, #{car_name}, #{car_number}, #{car_capa}, #{car_option}, #{car_detail}, #{car_rentprice}, now())
+	</insert>
+
+	<update id="update" parameterType="kr.co.ccrent.domain.CarVO">
+		update car set car_rentcompid=#{car_rentcompid}, car_modelname=#{car_modelname}, car_name=#{car_name}, car_number=#{car_number}, car_capa=#{car_capa}, car_option=#{car_option}, car_detail=#{car_detail}, car_rentprice=#{car_rentprice} where car_regid=#{car_regid}
+	</update>
+	
+	<delete id="delete">
+		delete from car where car_regid = #{car_regid} 
+	</delete>
+	
+	<select id="selectAll" resultType="kr.co.ccrent.domain.CarVO">
+		select * from car order by car_regid
+	</select>
+	
+	<select id="selectOne" resultType="kr.co.ccrent.domain.CarVO">
+		select * from car where car_regid = #{car_regid}
+	</select>
+	
+</mapper>
