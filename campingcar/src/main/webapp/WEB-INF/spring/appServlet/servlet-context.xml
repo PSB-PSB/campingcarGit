@@ -30,6 +30,10 @@
 				<bean class="kr.co.ccrent.controller.formatter.LocalDateFormatter" />
 			</set>
 		</property>
-	</bean>		
+	</bean>	
+	
+	<!-- 멀티 파트 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
+	</bean>
 	
 </beans>
