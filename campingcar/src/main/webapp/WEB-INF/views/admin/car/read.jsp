@@ -69,6 +69,12 @@
 	<th>등록 일</th><td>${dto.car_regdate }</td>
 </tr>
 </table>
+
+<c:forEach items="${filelist }" var="file">
+	<div><img src="${contextPath }/resources/data/car/${file.bf_source}" /></div>
+</c:forEach>
+
+
 <button onclick="location.href='list';">목록</button>
 <button onclick="location.href='register?car_regid=${dto.car_regid }';">수정</button>
 <form action="remove" method="post">

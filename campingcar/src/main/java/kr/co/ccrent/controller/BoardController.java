@@ -1,6 +1,8 @@
 package kr.co.ccrent.controller;
 
-import java.io.File;
+import java.util.HashMap;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.ccrent.dto.BoardDTO;
 import kr.co.ccrent.dto.PageRequestDTO;
+import kr.co.ccrent.service.BoardFileService;
 import kr.co.ccrent.service.BoardService;
 import lombok.RequiredArgsConstructor;
 
@@ -22,35 +25,18 @@ import lombok.RequiredArgsConstructor;
 public class BoardController {
 	
 	private final BoardService boardService;
+	private final BoardFileService boardFileService;
 	
 	@GetMapping("/register")
 	public void register() {
 		System.out.println("<Board Controller> register GET");
 	}
 	@PostMapping("/register")
-	public String registerPOST(@RequestParam("file") MultipartFile[] file, RedirectAttributes redirectAttributes, BoardDTO boardDTO) {
+	public String registerPOST(String bo_table, @RequestParam("file") MultipartFile[] file, RedirectAttributes redirectAttributes, BoardDTO boardDTO, HttpServletRequest request) {
 		System.out.println("<Board Controller> register POST");
 		System.out.println(boardDTO);
-		for(MultipartFile multipartFile : file) {
-			System.out.println("Upload File Name: "+multipartFile.getOriginalFilename());
-		}
-		return "redirect:/board/register";
-	}
-	@PostMapping("/multipartUpload")
-	public void mutipartUploadPOST(MultipartFile[] uploadFile) {
-		System.out.println("<Board Controller> multipartUpload POST");
-		String uploadFolder = "C:\\upload";
-		for(MultipartFile multipartFile : uploadFile) {
-			System.out.println("Upload File Name: "+multipartFile.getOriginalFilename());
-			String uploadFileName = multipartFile.getOriginalFilename();
-			uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\")+1);
-			File saveFile = new File(uploadFolder,uploadFileName);
-			try {
-				multipartFile.transferTo(saveFile);
-			}catch(Exception e) {
-				System.out.println(e.getMessage());
-			}			
-		}
+		boardService.register(boardDTO, file, request);
+		return "redirect:/board/list?bo_table="+bo_table;
 	}
 	@GetMapping("/list")
 	public void listGET(Model model, PageRequestDTO pageRequestDTO) {
@@ -58,8 +44,12 @@ public class BoardController {
 		model.addAttribute("responseDTO", boardService.getList(pageRequestDTO));
 	}
 	@GetMapping("/read")
-	public void readGET() {
-		
+	public void readGET(Model model, String bo_table, int wr_id) {
+		System.out.println("<Board Controller> read GET");
+		HashMap<String, Object> fieldmap = new HashMap<>();
+		fieldmap.put("bo_table", bo_table);
+		fieldmap.put("wr_id", wr_id);
+		model.addAttribute("filelist", boardFileService.getFileList(fieldmap));
 	}
 
 }

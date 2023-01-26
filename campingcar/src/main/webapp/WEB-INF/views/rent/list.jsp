@@ -69,11 +69,17 @@ pageContext.setAttribute("nextMon", nextMon);
 	<!--// #header end -->
 	
 	<div id="body_head">
+		<h2>실시간 예약</h2>
+		<div class="location">
+			HOME　<i class="fa-solid fa-circle-chevron-right"></i> 　<span>실시간 예약</span>
+		</div>
 	</div>
 	
 	<div id="wrap">
 		<div id="submenu">
-			내용
+			<ul>
+				<li class="on"><a href="#">실시간 예약</a></li>
+			</ul>
 		</div>
 		
 		<div id="body_contents">
@@ -143,9 +149,6 @@ pageContext.setAttribute("nextMon", nextMon);
 </table>
 
 </div>
-
-<button onclick="location.href='${contextPath}/admin/rent_list';">관리자 목록</button>
-
 
 <!-- ================================================== -->
 		</div> <!-- // #body_contents end -->

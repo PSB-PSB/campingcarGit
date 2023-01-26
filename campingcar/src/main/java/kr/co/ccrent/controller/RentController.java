@@ -61,6 +61,7 @@ public class RentController {
 		varmap.put("car_regid", car_regid);
 		varmap.put("firstday", datemap.get("firstday"));
 		varmap.put("lastday", datemap.get("lastday"));
+		varmap.put("dummy", "1");	
 		HashMap<String, RentDTO> map = rentService.getByCarId(varmap);
 		model.addAttribute("rentlist", map);
 		

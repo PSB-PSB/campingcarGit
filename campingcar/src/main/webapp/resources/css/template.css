@@ -30,6 +30,13 @@
 	url(/fonts/NotoSansKr/NotoSansKR-Bold.otf) format('opentype');
 }
 
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body,div,p,span,a,input,textarea,ul,ol,li,h1,h2,h3,h4,h5 {font-family: 'Noto Sans KR', sans-serif; font-weight:300; list-style:none; margin:0; padding:0;}
 a:link {text-decoration:none; color:#1e1e1e;}
 a:hover {text-decoration:none; color:#1e1e1e;}

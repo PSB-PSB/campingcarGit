@@ -31,7 +31,9 @@
 		<div id="body_contents">
 <!-- ================================================== -->
 
-내용
+<c:forEach items="${filelist }" var="file">
+	<div><img src="${contextPath }/resources/data/${param.bo_table}/${file.bf_source}" /></div>
+</c:forEach>
 
 <!-- ================================================== -->		
 		</div> <!-- // #body_contents end -->

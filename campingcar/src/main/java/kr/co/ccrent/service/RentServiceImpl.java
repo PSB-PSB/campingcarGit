@@ -45,46 +45,48 @@ public class RentServiceImpl implements RentService {
 	public HashMap<String, RentDTO> getByCarId(HashMap<String,Object> varmap) {
 		
 		// car_regid, firstday, lastday로 예약목록 select, dto로 불러오기
-		List<RentDTO> dtolist = rentMapper.selectByCarId(varmap).stream()
-				.map(vo -> modelMapper.map(vo, RentDTO.class))
-				.collect(Collectors.toList());
+		List<RentVO> volist = rentMapper.selectByCarId(varmap);
+		List<RentDTO> dtolist = null;
+		System.out.println(volist);
+		HashMap<String, RentDTO> resultmap = new HashMap<>();	
+		if(volist!=null) {
+			dtolist = rentMapper.selectByCarId(varmap).stream()
+					.map(vo -> modelMapper.map(vo, RentDTO.class))
+					.collect(Collectors.toList());
+			
+			// DTO를 키를 날짜(re_startday)로 잡고 해시맵에 넣기
 
-		// DTO를 키를 날짜(re_startday)로 잡고 해시맵에 넣기
-		HashMap<String, RentDTO> resultmap = new HashMap<>();		
-		
-		
-		// 연속 일정에 따른 더미 데이터 처리
-		for(int i=0; i<dtolist.size(); i++) {
-			// 출고일, 반납일 계산
-			Date startday = java.sql.Date.valueOf(dtolist.get(i).getRent_startdate());
-			Date endday = java.sql.Date.valueOf(dtolist.get(i).getRent_enddate());
-			long Sec = (endday.getTime() - startday.getTime()) / 1000; // 초
-			long Min = (endday.getTime() - startday.getTime()) / 60000; // 분
-			long Hour = (endday.getTime() - startday.getTime()) / 3600000; // 시
-			long Days = Sec / (24*60*60); // 날짜 차이 (일단위)
-			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-			
-			dtolist.get(i).setRent_diffdate(Long.valueOf(Days).intValue());
-			dtolist.get(i).setRent_dummy(false);
-			resultmap.put(String.valueOf(dtolist.get(i).getRent_startdate()), dtolist.get(i));
-			System.out.println(dtolist.get(i).isRent_dummy());
-			
-			// 더미데이터를 추가할 경우
-			if(varmap.get("dummy").equals("1")) {
-				if(Days>1) {
-					LocalDate startdayLocal = dtolist.get(i).getRent_startdate();
-					LocalDate enddayLocal = dtolist.get(i).getRent_enddate();
-					for(int j=startdayLocal.getDayOfMonth()+1; j<enddayLocal.getDayOfMonth(); j++) {
-						String keydate = String.valueOf(startdayLocal.getYear()+"-"+String.format("%02d",startdayLocal.getMonthValue())+"-"+String.format("%02d", j));
-						System.out.println(keydate);
-						dtolist.get(i).setRent_dummy(true);
-						resultmap.put(keydate, dtolist.get(i));
+			// 연속 일정에 따른 더미 데이터 처리
+			for(int i=0; i<dtolist.size(); i++) {
+				// 출고일, 반납일 계산
+				Date startday = java.sql.Date.valueOf(dtolist.get(i).getRent_startdate());
+				Date endday = java.sql.Date.valueOf(dtolist.get(i).getRent_enddate());
+				long Sec = (endday.getTime() - startday.getTime()) / 1000; // 초
+				long Min = (endday.getTime() - startday.getTime()) / 60000; // 분
+				long Hour = (endday.getTime() - startday.getTime()) / 3600000; // 시
+				long Days = Sec / (24*60*60); // 날짜 차이 (일단위)
+				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+				
+				dtolist.get(i).setRent_diffdate(Long.valueOf(Days).intValue());
+				dtolist.get(i).setRent_dummy(false);
+				resultmap.put(String.valueOf(dtolist.get(i).getRent_startdate()), dtolist.get(i));
+
+				// 더미데이터를 추가할 경우
+				if(varmap.get("dummy").equals("1")) {
+					if(Days>1) {
+						LocalDate startdayLocal = dtolist.get(i).getRent_startdate();
+						LocalDate enddayLocal = dtolist.get(i).getRent_enddate();
+						for(int j=startdayLocal.getDayOfMonth()+1; j<enddayLocal.getDayOfMonth(); j++) {
+							String keydate = String.valueOf(startdayLocal.getYear()+"-"+String.format("%02d",startdayLocal.getMonthValue())+"-"+String.format("%02d", j));
+							System.out.println(keydate);
+							dtolist.get(i).setRent_dummy(true);
+							resultmap.put(keydate, dtolist.get(i));
+						}
+						System.out.println("더미데이터");
 					}
-					System.out.println("더미데이터");
-				}
-				System.out.println("==============================");
-			}
-			
+					System.out.println("==============================");
+				} // end of IF
+			} // end of FOR LOOP
 		}
 		return resultmap;
 	}

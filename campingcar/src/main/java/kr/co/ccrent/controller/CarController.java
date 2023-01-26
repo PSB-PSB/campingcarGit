@@ -1,5 +1,7 @@
 package kr.co.ccrent.controller;
 
+import java.util.HashMap;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import kr.co.ccrent.dto.CarDTO;
+import kr.co.ccrent.service.BoardFileService;
 import kr.co.ccrent.service.CarService;
 import lombok.RequiredArgsConstructor;
 
@@ -16,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class CarController {
 
 	private final CarService carService;
+	private final BoardFileService boardFileService;
 	
 	@GetMapping("/register")
 	public void registerGET(Model model, String car_regid) {
@@ -30,7 +34,7 @@ public class CarController {
 	public String registerPOST(CarDTO carDTO) {
 		System.out.println("<Controller> register POST ==============================");
 		System.out.println(carDTO);
-		carService.register(carDTO);
+		carService.register(carDTO, null, null);
 		return "redirect:/car/list";
 
 	}
@@ -51,6 +55,10 @@ public class CarController {
 	public void readGET(Model model, int car_regid) {
 		System.out.println("<Controller> read GET ==============================");
 		model.addAttribute("dto", carService.getOne(car_regid));
+		HashMap<String, Object> fieldmap = new HashMap<>();
+		fieldmap.put("bo_table", "car");
+		fieldmap.put("wr_id", car_regid);
+		model.addAttribute("filelist", boardFileService.getFileList(fieldmap));		
 	}
 	@PostMapping("/remove")
 	public String removePOST(int car_regid) {

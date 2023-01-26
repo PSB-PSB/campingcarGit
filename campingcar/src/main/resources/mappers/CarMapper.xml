@@ -28,4 +28,8 @@
 		select * from car where car_regid = #{car_regid}
 	</select>
 	
+	<select id="selectMaxId" resultType="int">
+		select MAX(car_regid) from car
+	</select>
+	
 </mapper>

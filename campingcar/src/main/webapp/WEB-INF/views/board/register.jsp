@@ -158,6 +158,7 @@ $('body').on('click', '.cvf_upload_btn', function(e){
 <h3>Sort Files before upload</h3>
 <br />
 <form action="register" method="post" enctype="multipart/form-data">
+<input type="hidden" name="bo_table" value="free" />
 <table border="1" width="600px">
 <tr><td>제목</td><td><input type="text" name="wr_subject" /></td></tr>
 <tr><td>내용</td><td><textarea cols="100" rows="5" name="wr_content"></textarea></td></tr>
@@ -176,7 +177,7 @@ $('body').on('click', '.cvf_upload_btn', function(e){
 	<input type = "text" class = "form-control cvf_hidden_field" value = "" disabled = "disabled" />   
 </div>                     
 <ul class = "cvf_uploaded_files"></ul>
-<button type="submit">전송</button>
+<button onclick="cvf_reload_order();">전송</button>
 </div>
 </div>
 </form>

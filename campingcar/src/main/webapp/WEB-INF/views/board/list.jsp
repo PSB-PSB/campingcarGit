@@ -21,11 +21,22 @@
 	<!--// #header end -->
 	
 	<div id="body_head">
+		<h2>일반 게시판</h2>
+		<div class="location">
+			HOME　<i class="fa-solid fa-circle-chevron-right"></i>　
+			<span>일반 게시판</span>
+		</div>
 	</div>
 	
 	<div id="wrap">
 		<div id="submenu">
-			내용
+			<ul>
+				<li class="on"><a href="#">서브 메뉴</a></li>
+				<li><a href="#">서브 메뉴</a></li>
+				<li><a href="#">서브 메뉴</a></li>
+				<li><a href="#">서브 메뉴</a></li>
+				<li><a href="#">서브 메뉴</a></li>
+			</ul>
 		</div>
 		
 		<div id="body_contents">
@@ -36,7 +47,7 @@
 <c:forEach items="${responseDTO.dtoList }" var="dto">
 <tr>
 	<th>${dto.wr_id }</th>
-	<td><a href="${contextPath }/board/read?wr_id=${dto.wr_id}&${pageRequestDTO.link}">${dto.wr_subject }</a></td>
+	<td><a href="${contextPath }/board/read?bo_table=${param.bo_table }&wr_id=${dto.wr_id}&${pageRequestDTO.link}">${dto.wr_subject }</a></td>
 	<td>${dto.wr_name }</td>
 	<td>${dto.wr_datetime }</td>
 	<td>${dto.wr_hit }</td>
@@ -58,6 +69,10 @@
 	 	</c:if>
 	</ul>
 </nav>
+
+<div class="board_bot">
+<button onclick="location.href='${contextPath}/board/register?bo_table=${param.bo_table }';" class="btn btn-primary">글쓰기</button>
+</div>
 
 <script>
 document.querySelector(".pagination").addEventListener("click", function(e){

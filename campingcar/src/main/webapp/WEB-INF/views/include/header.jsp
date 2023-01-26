@@ -4,7 +4,10 @@
 
 <div id="header_outer">
 <div id="header">
-	<div id="gnb"><a href="#">회원가입</a> <a href="#">로그인</a> <a href="${contextPath }/admin/" target="_blank">관리자</a></div>
+	<div id="gnb">
+		<a href="#">회원가입</a>　
+		<a href="#">로그인</a>　
+		<a href="${contextPath }/admin/" target="_blank">관리자</a></div>
 	<h1><a href="${contextPath }/"><img src="${contextPath }/resources/img/header/logo.png" alt="자바 캠핑카" /></a></h1>
 	<div id="topmenu">
 		<ul>

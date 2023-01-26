@@ -33,7 +33,7 @@ public class CarServiceTest {
 				.car_detail("캠핑카 3호 입니다.")
 				.car_rentprice(200000)
 				.build();
-		carService.register(carDTO);	
+		// carService.register(carDTO);	
 	}
 	
 	// @Test

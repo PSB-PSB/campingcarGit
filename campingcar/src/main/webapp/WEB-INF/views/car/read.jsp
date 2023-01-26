@@ -1,12 +1,46 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="java.util.*" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>게시판 목록</title>
+<%@ include file="../include/plugin.jsp" %>
+<link href="${contextPath}/resources/css/sub_all.css" rel="stylesheet" />
 </head>
 <body>
+
+<div id="container">
+	<!-- #header start -->
+	<%@ include file="../include/header.jsp" %>
+	<!--// #header end -->
+	
+	<div id="body_head">
+		<h2>일반 게시판</h2>
+		<div class="location">
+			HOME　<i class="fa-solid fa-circle-chevron-right"></i>　
+			<span>일반 게시판</span>
+		</div>
+	</div>
+	
+	<div id="wrap">
+		<div id="submenu">
+			<ul>
+				<li class="on"><a href="#">서브 메뉴</a></li>
+				<li><a href="#">서브 메뉴</a></li>
+				<li><a href="#">서브 메뉴</a></li>
+				<li><a href="#">서브 메뉴</a></li>
+				<li><a href="#">서브 메뉴</a></li>
+			</ul>
+		</div>
+		
+		<div id="body_contents">
+<!-- ================================================== -->
 
 <h2>차량 조회</h2>
 
@@ -52,6 +86,14 @@
 	<input type="text" name="car_regid" value="${dto.car_regid }" />
 	<button type="submit">삭제</button>
 </form>
+
+<!-- ================================================== -->		
+		</div> <!-- // #body_contents end -->
+	</div><!-- // #wrap end -->
+	
+	<div id="footer">
+	</div>
+</div><!-- // #container end -->
 
 </body>
 </html>

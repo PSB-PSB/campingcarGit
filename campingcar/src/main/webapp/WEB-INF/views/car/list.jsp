@@ -21,11 +21,17 @@
 	<!--// #header end -->
 	
 	<div id="body_head">
+		<h2>보유 차량</h2>
+		<div class="location">
+			HOME　<i class="fa-solid fa-circle-chevron-right"></i> 　<span>보유 차량</span>
+		</div>
 	</div>
 	
 	<div id="wrap">
 		<div id="submenu">
-			내용
+			<ul>
+				<li class="on"><a href="#">보유 차량</a></li>
+			</ul>
 		</div>
 		
 		<div id="body_contents">

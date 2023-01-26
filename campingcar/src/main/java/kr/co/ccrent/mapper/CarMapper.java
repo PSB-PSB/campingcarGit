@@ -11,4 +11,5 @@ public interface CarMapper {
 	void delete(int car_regid);
 	List<CarVO> selectAll();
 	CarVO selectOne(int car_regid);
+	int selectMaxId();
 }

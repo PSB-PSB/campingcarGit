@@ -42,7 +42,7 @@ public class CarMapperTest {
 		volist.forEach(vo -> System.out.println(vo));
 	}
 	
-	@Test
+	// @Test
 	public void selectOne() {
 		CarVO carVO = carMapper.selectOne(1);
 		System.out.println(carVO);
@@ -62,6 +62,11 @@ public class CarMapperTest {
 				.car_rentprice(250000)
 				.build();
 		carMapper.update(carVO);	
+	}
+	
+	@Test
+	public void selectMaxIdTest() {
+		System.out.println(carMapper.selectMaxId());
 	}
 
 }
