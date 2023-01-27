@@ -74,6 +74,15 @@
 <button onclick="location.href='${contextPath}/board/register?bo_table=${param.bo_table }';" class="btn btn-primary">글쓰기</button>
 </div>
 
+<div class="search">
+<form action="list" method="get">
+<input type="hidden" name="bo_table" value="${param.bo_table }" />
+<input type="hidden" name="size" value="" />
+<input type="hidden" name="" value="" />
+<input type="hidden" name="" value="" />
+</form>
+</div>
+
 <script>
 document.querySelector(".pagination").addEventListener("click", function(e){
 	e.preventDefault();
