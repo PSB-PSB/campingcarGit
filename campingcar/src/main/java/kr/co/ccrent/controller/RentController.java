@@ -73,7 +73,10 @@ public class RentController {
 		rentService.register(rentDTO);
 		return "redirect:/rent/list";
 	}
-	
+	@GetMapping("/read")
+	public void readGET() {
+		System.out.println("<Rent Controller> read GET");
+	}
 	@GetMapping("/template")
 	public void templateGET() {
 		

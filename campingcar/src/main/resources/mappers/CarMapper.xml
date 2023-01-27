@@ -9,11 +9,12 @@
 	</select>
 	
 	<insert id="insert" parameterType="kr.co.ccrent.domain.CarVO">
-		insert into car (car_rentcompid, car_modelname, car_name, car_number, car_capa, car_option, car_detail, car_rentprice, car_regdate) values (#{car_rentcompid}, #{car_modelname}, #{car_name}, #{car_number}, #{car_capa}, #{car_option}, #{car_detail}, #{car_rentprice}, now())
+		insert into car (car_rentcompid, car_modelname, car_name, car_number, car_capa, car_option, car_detail, car_rentprice, car_regdate, car_file) 
+		values (#{car_rentcompid}, #{car_modelname}, #{car_name}, #{car_number}, #{car_capa}, #{car_option}, #{car_detail}, #{car_rentprice}, now(), #{car_file})
 	</insert>
 
 	<update id="update" parameterType="kr.co.ccrent.domain.CarVO">
-		update car set car_rentcompid=#{car_rentcompid}, car_modelname=#{car_modelname}, car_name=#{car_name}, car_number=#{car_number}, car_capa=#{car_capa}, car_option=#{car_option}, car_detail=#{car_detail}, car_rentprice=#{car_rentprice} where car_regid=#{car_regid}
+		update car set car_rentcompid=#{car_rentcompid}, car_modelname=#{car_modelname}, car_name=#{car_name}, car_number=#{car_number}, car_capa=#{car_capa}, car_option=#{car_option}, car_detail=#{car_detail}, car_rentprice=#{car_rentprice}, car_file=#{car_file} where car_regid=#{car_regid}
 	</update>
 	
 	<delete id="delete">
@@ -23,6 +24,14 @@
 	<select id="selectAll" resultType="kr.co.ccrent.domain.CarVO">
 		select * from car order by car_regid
 	</select>
+
+	<select id="selectList" resultType="kr.co.ccrent.domain.CarVO">
+		select * from car order by car_regid desc limit #{skip}, #{size}
+	</select>
+	
+	<select id="selectCount" resultType="int">
+		select count(car_regid) from car
+	</select>		
 	
 	<select id="selectOne" resultType="kr.co.ccrent.domain.CarVO">
 		select * from car where car_regid = #{car_regid}

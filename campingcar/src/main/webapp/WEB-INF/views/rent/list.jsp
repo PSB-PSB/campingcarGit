@@ -127,9 +127,10 @@ pageContext.setAttribute("nextMon", nextMon);
 		<c:if test="${indexdate >= indextoday}">
 		
 			<c:forEach items="${carlist}" var="car">
-				<c:if test="${not empty maplist[car.car_regid][keydate].rent_id}"><button type="button" class="btn btn-outline-secondary btn-sm" disabled>${car.car_name} 예약 완료</button></c:if>
-				<c:if test="${empty maplist[car.car_regid][keydate].rent_id}"><button type="button" class="btn btn-secondary btn-sm" onclick="location.href='register?car_regid=${car.car_regid }&rent_startdate=${keydate}';">${car.car_name} 예약 가능</button></c:if>
-
+				<c:if test="${car.car_state==1 }">
+					<c:if test="${not empty maplist[car.car_regid][keydate].rent_id}"><button type="button" class="btn btn-outline-secondary btn-sm" disabled>${car.car_name} 예약 완료</button></c:if>
+					<c:if test="${empty maplist[car.car_regid][keydate].rent_id}"><button type="button" class="btn btn-secondary btn-sm" onclick="location.href='register?car_regid=${car.car_regid }&rent_startdate=${keydate}';">${car.car_name} 예약 가능</button></c:if>
+				</c:if>
 			</c:forEach>
 		
 		</c:if>

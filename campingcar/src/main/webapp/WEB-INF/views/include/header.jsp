@@ -14,7 +14,7 @@
 			<li><a href="#">회사 소개</a></li>
 			<li><a href="${contextPath }/car/list">보유 차량</a></li>
 			<li><a href="${contextPath }/rent/list">실시간 예약</a></li>
-			<li><a href="#">예약 확인</a></li>
+			<li><a href="${contextPath }/rent/read">예약 확인</a></li>
 			<li><a href="#">커뮤니티</a></li>
 			<li><a href="#">고객센터</a></li>
 		</ul>

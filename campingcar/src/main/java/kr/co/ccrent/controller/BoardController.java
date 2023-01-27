@@ -44,7 +44,7 @@ public class BoardController {
 		model.addAttribute("responseDTO", boardService.getList(pageRequestDTO));
 	}
 	@GetMapping("/read")
-	public void readGET(Model model, String bo_table, int wr_id) {
+	public void readGET(Model model, String bo_table, int wr_id, PageRequestDTO pageRequestDTO) {
 		System.out.println("<Board Controller> read GET");
 		HashMap<String, Object> fieldmap = new HashMap<>();
 		fieldmap.put("bo_table", bo_table);

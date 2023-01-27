@@ -64,7 +64,7 @@ pageContext.setAttribute("nextMon", nextMon);
 table, th, td {border-spacing:0px !important; border:none; border-collapse:collapse; margin:0; padding:0;}
 .rent_calendar h3 {padding:0px 0px 30px 0px;}
 .rent_calendar .row {clear:both; width:3360px; height:100px; position:relative; padding:0 !important; --bs-gutter-x:0;}
-.rent_calendar .row .colhead {float:left; width:200px; height:100px; background:#f0f0f0; border:1px solid #dcdcdc; border-top:none; text-align:center; padding:15px;}
+.rent_calendar .row .colhead {float:left; width:200px; height:100px; background:#ffffff; border:1px solid #c8c8c8; border-top:none; text-align:center; padding:15px; font-weight:bold;}
 .rent_calendar .row .cell {float:left; width:100px; height:100px; border:1px solid #dcdcdc; border-left:none; border-top:none; color:#c8c8c8; padding:0; position:relative; z-index:0; font-weight:bold;}
 .rent_calendar .row .content {padding:0px 0px 0px 200px; position:absolute; top:0; left:0; }
 
@@ -77,9 +77,9 @@ table, th, td {border-spacing:0px !important; border:none; border-collapse:colla
 .date .wday {margin-top:-5px;}
 .content table {}
 .content td {position:relative;}
-.content td div {width:100px; height:100px; border:1px solid transparent; padding:10px; margin:0; color:#787878; text-align:center; position:relative; z-index:1;}
+.content td div {width:100px; height:100px; border:1px solid #c8c8c8; border-left:none; border-top:none; padding:10px; margin:0; color:#787878; text-align:center; position:relative; z-index:1;}
 .content .filled {background:#0d6efd; border:1px solid #005be0;  border-top:none; color:#ffffff; text-align:left; cursor:pointer;}
-.content .disabled {background:#f0f0f0; border-color:#c8c8c8; border-left:none; border-top:none; color:#c8c8c8;}
+.content .disabled {background:#f0f0f0; border-color:#c8c8c8;  color:#c8c8c8;}
 .content .data {cursor:pointer; display:none; position:absolute; z-index:2; width:250px; min-height:300px; background:#ffffff; left:50px; top:50px; border-radius:5px; border:1px solid #dcdcdc; box-shadow:10px 10px 10px rgba(0,0,0,0.2); padding:0;}
 .content .data thead th {padding:10px 0px 10px 15px; text-align:left;}
 .content .data tbody td {border:1px solid #dcdcdc !important; padding:10px 0px 10px 0px; color:#1e1e1e;}

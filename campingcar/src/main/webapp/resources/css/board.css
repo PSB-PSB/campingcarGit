@@ -5,12 +5,13 @@
 .state.type02 {color:#00c63d;}
 .state.type03 {color:#0d6efd;}
 .state.type04 {color:#969696;}
+.state.type05 {color:#d51212;}
 
 th.state {border:1px solid #dcdcdc; font-weight:normal;}
 th.state.type01 {background:#ffe5d5; border-color:#ffc6a4;}
 th.state.type02 {background:#ddffe3; border-color:#b2ecc9;}
 th.state.type03 {background:#cbddf7; border-color:#a1bbe1;}
-th.state.type04 {background:#f0f0f0;}
+th.state.type04 {background:#e2e3e5;}
 th.state span {font-weight:bold !important;}
 
 .board_list thead th {font-weight:bold;}
@@ -30,4 +31,9 @@ th.state span {font-weight:bold !important;}
 .daterangepicker .calendar-table tbody tr td:nth-child(1){color:#ff0000;}
 .daterangepicker tbody tr td.disabled {text-decoration:none; color:#dcdcdc !important;}
 
-.board_bot {padding:20px 0px 0px 0px;}
+.board_bot {padding:25px 0px 0px 0px;}
+.board_bot nav {}
+.board_bot div {text-align:right; margin:-38px 0px 0px 0px;}
+.search {padding:40px 0px 0px 0px;}
+
+.pagination li {cursor:pointer;}

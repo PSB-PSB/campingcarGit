@@ -2,6 +2,8 @@ package kr.co.ccrent.domain;
 
 import java.time.LocalDate;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,4 +26,7 @@ public class CarVO {
 	private String car_detail;
 	private int car_rentprice;
 	private LocalDate car_regdate;
+	private int car_state;
+	private MultipartFile file;
+	private String car_file;
 }

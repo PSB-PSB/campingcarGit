@@ -30,10 +30,8 @@
 	<div id="wrap">
 <!-- ================================================== -->
 
-
-<h2>차량 조회</h2>
-
-<table border="1" width="100%">
+<div><img src="${contextPath }/resources/data/car/${dto.car_file }" alt="" /></div>
+<table class="table table-bordered">
 <colgroupd>
 	<col width="20%" />
 	<col width="*" />
@@ -78,7 +76,7 @@
 <button onclick="location.href='list';">목록</button>
 <button onclick="location.href='register?car_regid=${dto.car_regid }';">수정</button>
 <form action="remove" method="post">
-	<input type="text" name="car_regid" value="${dto.car_regid }" />
+	<input type="hidden" name="car_regid" value="${dto.car_regid }" />
 	<button type="submit">삭제</button>
 </form>
 

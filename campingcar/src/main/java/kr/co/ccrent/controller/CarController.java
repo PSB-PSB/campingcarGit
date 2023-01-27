@@ -34,7 +34,7 @@ public class CarController {
 	public String registerPOST(CarDTO carDTO) {
 		System.out.println("<Controller> register POST ==============================");
 		System.out.println(carDTO);
-		carService.register(carDTO, null, null);
+		// carService.register(carDTO, null, null, null);
 		return "redirect:/car/list";
 
 	}
@@ -42,7 +42,7 @@ public class CarController {
 	public String modifyPOST(CarDTO carDTO) {
 		System.out.println("<Controller> modify POST ==============================");
 		System.out.println(carDTO);
-		carService.modify(carDTO);
+		// carService.modify(carDTO);
 		return "redirect:/car/list";
 	}
 	@GetMapping("/list")

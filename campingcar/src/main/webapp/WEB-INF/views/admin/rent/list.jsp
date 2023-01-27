@@ -50,7 +50,7 @@
 </tr>
 </thead>
 <tbody>
-<c:forEach items="${dtolist }" var="dto">
+<c:forEach items="${responseDTO.dtoList }" var="dto">
 <tr onclick="location.href='read?rent_id=${dto.rent_id}';">
 	<td>${dto.rent_id }</td>	
 	<td>${dto.car_regid }</td>	
@@ -81,6 +81,33 @@
 </tbody>
 </table>
 </div>
+
+<nav aria-label="Page navigation example">
+	 <ul class="pagination">
+	 	<c:if test="${responseDTO.prev }">
+	 		<li class="page-item"><a class="page-link" data-num="${responseDTO.start-1 }"><i class="fa-solid fa-angle-left"></i></a></li>
+	 	</c:if>
+		<c:forEach begin="${responseDTO.start }" end="${responseDTO.end }" var="num">
+			<li class="page-item ${responseDTO.page == num?"active":"" }"><a class="page-link" data-num="${num }">${num }</a></li>
+		</c:forEach>
+	 	<c:if test="${responseDTO.next }">
+	 		<li class="page-item"><a class="page-link" data-num="${responseDTO.end+1 }"><i class="fa-solid fa-angle-right"></i></a></li>
+	 	</c:if>
+	</ul>
+</nav>
+
+<script>
+document.querySelector(".pagination").addEventListener("click", function(e){
+	e.preventDefault();
+	e.stopPropagation();
+	const target = e.target;
+	if(target.tagName!=='A'){
+		return
+	}
+	const num = target.getAttribute("data-num");
+	self.location = `list?page=\${num}`
+},false);
+</script>
 
 <!-- ================================================== -->
 	</div><!-- // #wrap end -->

@@ -17,6 +17,14 @@
 		select * from rent order by rent_id desc
 	</select>
 
+	<select id="selectList" resultType="kr.co.ccrent.domain.RentVO">
+		select * from rent order by rent_id desc limit #{skip}, #{size}
+	</select>
+
+	<select id="selectCount" resultType="int">
+		select count(rent_id) from rent
+	</select>	
+
 	<select id="selectByCarId" parameterType="HashMap" resultType="kr.co.ccrent.domain.RentVO">
 		select * from rent 
 		<![CDATA[where car_regid = #{car_regid} and rent_startdate >= #{firstday} and rent_startdate <= #{lastday}]]>

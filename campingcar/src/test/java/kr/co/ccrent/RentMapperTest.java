@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import kr.co.ccrent.domain.BoardVO;
 import kr.co.ccrent.domain.RentVO;
+import kr.co.ccrent.dto.PageRequestDTO;
 import kr.co.ccrent.mapper.RentMapper;
 
 @ExtendWith(SpringExtension.class)
@@ -61,9 +63,30 @@ public class RentMapperTest {
 		rentVO.forEach(vo -> System.out.println(vo));
 	}
 	
-	@Test
+	// @Test
 	public void selectOne() {
 		RentVO rentVO = rentMapper.selectOne(1);
 		System.out.println(rentVO);
 	}
+	
+	// @Test
+	public void selectListTest() {
+		PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+				.page(1)
+				.size(10)
+				.build();
+		List<RentVO> volist = rentMapper.selectList(pageRequestDTO);
+		volist.forEach(vo -> System.out.println(vo));
+	}
+	
+	@Test
+	public void selectCountTest() {
+		PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+				.page(1)
+				.size(10)
+				.build();		
+		System.out.println(rentMapper.selectCount(pageRequestDTO));
+	}
+	
+	
 }

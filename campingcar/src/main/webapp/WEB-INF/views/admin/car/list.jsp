@@ -46,7 +46,7 @@
 	<th>차량 상태</th>
 </thead>
 <tbody>
-<c:forEach items="${dtolist}" var="dto">
+<c:forEach items="${responseDTO.dtoList }" var="dto">
 <tr>
 	<th>${dto.car_regid }</th>
 	<td>${dto.car_rentcompid }</td>
@@ -55,7 +55,12 @@
 	<td>${dto.car_capa }</td>
 	<td class="right"><fmt:formatNumber value="${dto.car_rentprice }" pattern="#,###" /></td>
 	<td>${dto.car_regdate }</td>
-	<td>&nbsp;</td>
+	<td>
+		<c:choose>
+			<c:when test="${dto.car_state==1 }"><p class="state type03">사용 가능</p></c:when>
+			<c:when test="${dto.car_state==0 }"><p class="state type05">사용 불가</p></c:when>
+		</c:choose>
+	</td>
 </tr>
 </c:forEach>
 </tbody>
@@ -63,8 +68,40 @@
 </div>
 
 <div class="board_bot">
-<button onclick="location.href='${contextPath}/admin/car/register';" class="btn btn-primary">차량 등록</button>
+	<nav aria-label="Page navigation">
+		 <ul class="pagination justify-content-center">
+		 	<c:if test="${responseDTO.prev }">
+		 		<li class="page-item"><a class="page-link" data-num="${responseDTO.start-1 }"><i class="fa-solid fa-angle-left"></i></a></li>
+		 	</c:if>
+			<c:forEach begin="${responseDTO.start }" end="${responseDTO.end }" var="num">
+				<li class="page-item ${responseDTO.page == num?"active":"" }"><a class="page-link" data-num="${num }">${num }</a></li>
+			</c:forEach>
+		 	<c:if test="${responseDTO.next }">
+		 		<li class="page-item"><a class="page-link" data-num="${responseDTO.end+1 }"><i class="fa-solid fa-angle-right"></i></a></li>
+		 	</c:if>
+		</ul>
+	</nav>
+	<div>
+		<button onclick="location.href='${contextPath}/admin/car/register';" class="btn btn-primary">차량 등록</button>
+	</div>
 </div>
+<div class="search">
+	<input type="text" name="" value="" class="form-control" />
+</div>
+
+<script>
+document.querySelector(".pagination").addEventListener("click", function(e){
+	e.preventDefault();
+	e.stopPropagation();
+	const target = e.target;
+	if(target.tagName!=='A'){
+		return
+	}
+	const num = target.getAttribute("data-num");
+	self.location = `list?page=\${num}`
+},false);
+</script>
+
 
 <!-- ================================================== -->
 	</div><!-- // #wrap end -->

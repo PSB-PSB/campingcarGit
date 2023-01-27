@@ -10,7 +10,11 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import kr.co.ccrent.domain.BoardVO;
 import kr.co.ccrent.domain.RentVO;
+import kr.co.ccrent.dto.BoardDTO;
+import kr.co.ccrent.dto.PageRequestDTO;
+import kr.co.ccrent.dto.PageResponseDTO;
 import kr.co.ccrent.dto.RentDTO;
 import kr.co.ccrent.mapper.RentMapper;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +44,21 @@ public class RentServiceImpl implements RentService {
 				.collect(Collectors.toList());
 		return dtolist;
 	}
+	@Override
+	public PageResponseDTO<RentDTO> getList(PageRequestDTO pageRequestDTO) {
+		pageRequestDTO.setBo_table(pageRequestDTO.getBo_table());
+		List<RentVO> volist = rentMapper.selectList(pageRequestDTO);
+		List<RentDTO> dtolist = volist.stream()
+				.map(vo -> modelMapper.map(vo, RentDTO.class))
+				.collect(Collectors.toList());
+		int total = rentMapper.selectCount(pageRequestDTO);
+		PageResponseDTO<RentDTO> pageResponseDTO = PageResponseDTO.<RentDTO>withAll()
+				.dtoList(dtolist)
+				.total(total)
+				.pageRequestDTO(pageRequestDTO)
+				.build();
+		return pageResponseDTO;
+	}	
 	
 	@Override
 	public HashMap<String, RentDTO> getByCarId(HashMap<String,Object> varmap) {

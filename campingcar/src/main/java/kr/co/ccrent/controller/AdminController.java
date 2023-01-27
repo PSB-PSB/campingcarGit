@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import kr.co.ccrent.config.DateProcess;
 import kr.co.ccrent.dto.BoardDTO;
 import kr.co.ccrent.dto.CarDTO;
+import kr.co.ccrent.dto.PageRequestDTO;
 import kr.co.ccrent.service.BoardFileService;
 import kr.co.ccrent.service.CarService;
 import kr.co.ccrent.service.RentService;
@@ -55,21 +56,23 @@ public class AdminController {
 	public String registerPOST(CarDTO carDTO, @RequestParam("file") MultipartFile[] file, RedirectAttributes redirectAttributes, HttpServletRequest request) {
 		System.out.println("<Admin Controller> register POST");
 		System.out.println(carDTO);
-		carService.register(carDTO, file, request);
+		// carService.register(carDTO, file, request, request.getParameter("order"));
+		carService.register(carDTO, request);
 		return "redirect:/admin/car/list";
 
 	}
 	@PostMapping("/car/modify")
-	public String modifyPOST(CarDTO carDTO) {
+	public String modifyPOST(CarDTO carDTO, HttpServletRequest request) {
 		System.out.println("<Controller> modify POST ==============================");
 		System.out.println(carDTO);
-		carService.modify(carDTO);
+		carService.modify(carDTO, request);
 		return "redirect:/admin/car/list";
 	}	
 	@GetMapping("/car/list")
-	public void carListGET(Model model) {
+	public void carListGET(Model model, PageRequestDTO pageRequestDTO) {
 		System.out.println("<Admin Controller> car list GET");
-		model.addAttribute("dtolist", carService.getAll());
+		// model.addAttribute("dtolist", carService.getAll());
+		model.addAttribute("responseDTO", carService.getList(pageRequestDTO));
 	}
 	@GetMapping("/car/read")
 	public void carReadGET(Model model, int car_regid) {
@@ -109,8 +112,10 @@ public class AdminController {
 		model.addAttribute("maplist", maplist);		
 	}
 	@GetMapping("/rent/list")
-	public void rentListGET(Model model) {
-		model.addAttribute("dtolist", rentService.getAll());
+	public void rentListGET(Model model, PageRequestDTO pageRequestDTO) {
+		System.out.println("<Admin Controller> list GET");
+		// model.addAttribute("dtolist", rentService.getAll());
+		model.addAttribute("responseDTO", rentService.getList(pageRequestDTO));
 	}	
 	@GetMapping("/rent/read")
 	public void rentReadGET(Model model, int rent_id) {
