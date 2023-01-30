@@ -85,9 +85,15 @@
 		<button onclick="location.href='${contextPath}/admin/car/register';" class="btn btn-primary">차량 등록</button>
 	</div>
 </div>
+<form action="list" method="get">
+<input type="hidden" name="size" value="${pageRequestDTO.size }" />
 <div class="search">
-	<input type="text" name="" value="" class="form-control" />
+	<input type="checkbox" name="types" value="car_modelname" /> 모델명
+	<input type="checkbox" name="types" value="car_name" /> 차량명
+	<input type="text" name="keyword" class="form-control" value="" />
+	<button type="submit">검색</button>
 </div>
+</form>
 
 <script>
 document.querySelector(".pagination").addEventListener("click", function(e){

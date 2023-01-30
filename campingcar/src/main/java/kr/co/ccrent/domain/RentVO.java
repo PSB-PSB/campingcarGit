@@ -17,6 +17,7 @@ public class RentVO {
 	private int rent_id;
 	private int car_regid;
 	private String user_id;
+	private String rent_name;
 	private String rent_phone1;
 	private String rent_phone2;
 	private LocalDate rent_startdate;

@@ -9,20 +9,48 @@
 	</select>
 	
 	<insert id="insert" parameterType="kr.co.ccrent.domain.RentVO">
-		insert into rent (car_regid, user_id, rent_phone1, rent_phone2, rent_startdate, rent_enddate, rent_option1, rent_option2, rent_price, rent_paytype, rent_paystate, rent_state, rent_memo) 
-		values (#{car_regid}, #{user_id}, #{rent_phone1}, #{rent_phone2}, #{rent_startdate}, #{rent_enddate}, #{rent_option1}, #{rent_option2}, #{rent_price}, #{rent_paytype}, #{rent_paystate}, #{rent_state}, #{rent_memo})
+		insert into rent (car_regid, user_id, rent_name, rent_phone1, rent_phone2, rent_startdate, rent_enddate, rent_option1, rent_option2, rent_price, rent_paytype, rent_paystate, rent_state, rent_memo) 
+		values (#{car_regid}, #{user_id}, #{rent_name}, #{rent_phone1}, #{rent_phone2}, #{rent_startdate}, #{rent_enddate}, #{rent_option1}, #{rent_option2}, #{rent_price}, #{rent_paytype}, #{rent_paystate}, #{rent_state}, #{rent_memo})
 	</insert>
 	
 	<select id="selectAll" resultType="kr.co.ccrent.domain.RentVO">
 		select * from rent order by rent_id desc
 	</select>
 
+	<!-- 검색 처리 -->
+	<sql id="search">
+	<where>
+		<if test="types != null and types.length > 0">
+			<foreach collection="types" item="type" open="(" close=")" separator=" OR ">
+				<if test="type=='rent_name'.toString()">
+					rent_name like concat('%', #{keyword}, '%')
+				</if>
+				<if test="type=='rent_phone1'.toString()">
+					rent_phone1 like concat('%', #{keyword}, '%')
+				</if>				
+			</foreach>
+		</if>
+		<if test="category != null and category != '' ">
+			<trim prefix="and">
+				rent_paystate = ${category}
+			</trim>
+		</if>
+		<if test="from != null and to != null">
+			<trim prefix="and">
+				rent_startdate between #{from} and #{to}
+			</trim>
+		</if>
+	</where>	
+	</sql>
 	<select id="selectList" resultType="kr.co.ccrent.domain.RentVO">
-		select * from rent order by rent_id desc limit #{skip}, #{size}
+		select * from rent
+		<include refid="search"></include>
+		order by rent_id desc limit #{skip}, #{size}
 	</select>
 
 	<select id="selectCount" resultType="int">
 		select count(rent_id) from rent
+		<include refid="search"></include>
 	</select>	
 
 	<select id="selectByCarId" parameterType="HashMap" resultType="kr.co.ccrent.domain.RentVO">
@@ -65,6 +93,14 @@
 		on r.car_regid = c.car_regid
 		where r.rent_id = #{rent_id}
 	</select>
+	
+	<update id="updateState" parameterType="kr.co.ccrent.domain.RentVO">
+		update rent set rent_paystate=#{rent_paystate} where rent_id=#{rent_id}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		delete from rent where rent_id = #{rent_id}
+	</delete>
 
 
 </mapper>

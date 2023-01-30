@@ -92,10 +92,10 @@ public class RentServiceImpl implements RentService {
 
 				// 더미데이터를 추가할 경우
 				if(varmap.get("dummy").equals("1")) {
-					if(Days>1) {
+					if(Days>=1) {
 						LocalDate startdayLocal = dtolist.get(i).getRent_startdate();
 						LocalDate enddayLocal = dtolist.get(i).getRent_enddate();
-						for(int j=startdayLocal.getDayOfMonth()+1; j<enddayLocal.getDayOfMonth(); j++) {
+						for(int j=startdayLocal.getDayOfMonth()+1; j<=enddayLocal.getDayOfMonth(); j++) {
 							String keydate = String.valueOf(startdayLocal.getYear()+"-"+String.format("%02d",startdayLocal.getMonthValue())+"-"+String.format("%02d", j));
 							System.out.println(keydate);
 							dtolist.get(i).setRent_dummy(true);
@@ -118,6 +118,18 @@ public class RentServiceImpl implements RentService {
 				rentDTO = modelMapper.map(rentVO, RentDTO.class);
 		}
 		return rentDTO;
+	}
+
+	@Override
+	public void modifyState(RentDTO rentDTO) {
+		RentVO rentVO = modelMapper.map(rentDTO, RentVO.class);
+		rentMapper.updateState(rentVO);
+	}
+
+	@Override
+	public void remove(int rent_id) {
+		rentMapper.delete(rent_id);
+		
 	}
 
 }

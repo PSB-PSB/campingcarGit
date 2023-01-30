@@ -15,9 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.ccrent.config.DateProcess;
-import kr.co.ccrent.dto.BoardDTO;
 import kr.co.ccrent.dto.CarDTO;
 import kr.co.ccrent.dto.PageRequestDTO;
+import kr.co.ccrent.dto.RentDTO;
 import kr.co.ccrent.service.BoardFileService;
 import kr.co.ccrent.service.CarService;
 import kr.co.ccrent.service.RentService;
@@ -71,6 +71,7 @@ public class AdminController {
 	@GetMapping("/car/list")
 	public void carListGET(Model model, PageRequestDTO pageRequestDTO) {
 		System.out.println("<Admin Controller> car list GET");
+		System.out.println(pageRequestDTO);
 		// model.addAttribute("dtolist", carService.getAll());
 		model.addAttribute("responseDTO", carService.getList(pageRequestDTO));
 	}
@@ -114,12 +115,25 @@ public class AdminController {
 	@GetMapping("/rent/list")
 	public void rentListGET(Model model, PageRequestDTO pageRequestDTO) {
 		System.out.println("<Admin Controller> list GET");
-		// model.addAttribute("dtolist", rentService.getAll());
+		System.out.println(pageRequestDTO);
 		model.addAttribute("responseDTO", rentService.getList(pageRequestDTO));
 	}	
 	@GetMapping("/rent/read")
 	public void rentReadGET(Model model, int rent_id) {
 		model.addAttribute("dto", rentService.getOne(rent_id));
+	}
+	@PostMapping("/rent/read")
+	public String rentReadPost(RentDTO rentDTO, String listtype) {
+		System.out.println("<Admin Controller> rent read POST");
+		System.out.println(rentDTO);
+		rentService.modifyState(rentDTO);
+		return "redirect:/admin/rent/read?rent_id="+rentDTO.getRent_id()+"&listtype="+listtype;	
+	}
+	@PostMapping("/rent/remove")
+	public String rentRemovePOST(String listtype, int rent_id) {
+		System.out.println("<Admin Controller> rent remove POST");
+		rentService.remove(rent_id);
+		return "redirect:/admin/rent/"+listtype;
 	}
 	
 }

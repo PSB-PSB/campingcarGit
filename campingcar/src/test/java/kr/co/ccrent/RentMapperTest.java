@@ -69,23 +69,35 @@ public class RentMapperTest {
 		System.out.println(rentVO);
 	}
 	
-	// @Test
+	@Test
 	public void selectListTest() {
 		PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
 				.page(1)
 				.size(10)
+				.types(new String[] {"rent_name","rent_phone1"})
+				.keyword("ȫ�浿")
+				.category("2")
 				.build();
 		List<RentVO> volist = rentMapper.selectList(pageRequestDTO);
 		volist.forEach(vo -> System.out.println(vo));
 	}
 	
-	@Test
+	// @Test
 	public void selectCountTest() {
 		PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
 				.page(1)
 				.size(10)
 				.build();		
 		System.out.println(rentMapper.selectCount(pageRequestDTO));
+	}
+	
+	@Test
+	public void updateStateTest() {
+		RentVO rentVO = RentVO.builder()
+				.rent_id(17)
+				.rent_paystate(1)
+				.build();
+		rentMapper.updateState(rentVO);
 	}
 	
 	
