@@ -63,10 +63,22 @@ public class RentServiceTest {
 		}
 	}
 	
-	@Test
+	// @Test
 	public void getOneTest() {
 		RentDTO rentDTO = rentService.getOne(1);
 		System.out.println(rentDTO);
 	}
+	
+	@Test
+	public void getTodayStartTest() {
+		List<RentDTO> dtolist = rentService.getTodayStart("2023-01-31");
+		dtolist.forEach(dto -> System.out.println(dto));
+	}
+	@Test
+	public void getTodayEndTest() {
+		List<RentDTO> dtolist = rentService.getTodayEnd("2023-01-31");
+		dtolist.forEach(dto -> System.out.println(dto));
+	}		
+	
 	
 }

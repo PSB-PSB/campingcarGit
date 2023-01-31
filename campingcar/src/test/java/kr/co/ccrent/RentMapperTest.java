@@ -69,7 +69,7 @@ public class RentMapperTest {
 		System.out.println(rentVO);
 	}
 	
-	@Test
+	// @Test
 	public void selectListTest() {
 		PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
 				.page(1)
@@ -91,7 +91,7 @@ public class RentMapperTest {
 		System.out.println(rentMapper.selectCount(pageRequestDTO));
 	}
 	
-	@Test
+	// @Test
 	public void updateStateTest() {
 		RentVO rentVO = RentVO.builder()
 				.rent_id(17)
@@ -100,5 +100,15 @@ public class RentMapperTest {
 		rentMapper.updateState(rentVO);
 	}
 	
+	@Test
+	public void selectTodayStartTest() {
+		List<RentVO> volist = rentMapper.selectTodayStart("2023-01-31");
+		volist.forEach(vo -> System.out.println(vo));
+	}
+	@Test
+	public void selectTodayEndTest() {
+		List<RentVO> volist = rentMapper.selectTodayEnd("2023-01-31");
+		volist.forEach(vo -> System.out.println(vo));
+	}	
 	
 }

@@ -1,5 +1,6 @@
 package kr.co.ccrent.domain;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 
 import lombok.AllArgsConstructor;
@@ -30,6 +31,7 @@ public class RentVO {
 	private int rent_paystate;
 	private int rent_state;
 	private String rent_memo;
+	private Timestamp rent_datetime;	
 	private boolean rent_dummy;
 	private CarVO car;
 }

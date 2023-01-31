@@ -11,6 +11,7 @@
 		<li><a href="${contextPath }/admin/car/list">차량 목록</a></li>
 		<li><a href="${contextPath }/admin/rent/calendar">예약 현황</a>
 			<ul>
+				<li><a href="${contextPath }/admin/rent/today">오늘의 출고/반납 차량</a></li>
 				<li><a href="${contextPath }/admin/rent/calendar">달력형 예약 현황</a></li>
 				<li><a href="${contextPath }/admin/rent/list">목록형 예약 현황</a></li>
 			</ul>

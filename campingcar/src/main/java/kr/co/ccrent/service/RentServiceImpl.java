@@ -86,17 +86,41 @@ public class RentServiceImpl implements RentService {
 				long Days = Sec / (24*60*60); // 날짜 차이 (일단위)
 				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 				
+				// 데이터 복사 (이런 무식한 방법밖에 없는건가;)
 				dtolist.get(i).setRent_diffdate(Long.valueOf(Days).intValue());
 				dtolist.get(i).setRent_dummy(false);
-				resultmap.put(String.valueOf(dtolist.get(i).getRent_startdate()), dtolist.get(i));
-
+				RentDTO origindto = new RentDTO();
+				origindto = RentDTO.builder()
+						.rent_id(dtolist.get(i).getRent_id())
+						.rent_name(dtolist.get(i).getRent_name())
+						.car_regid(dtolist.get(i).getCar_regid())
+						.user_id(dtolist.get(i).getUser_id())
+						.rent_phone1(dtolist.get(i).getRent_phone1())
+						.rent_phone2(dtolist.get(i).getRent_phone2())
+						.rent_startdate(dtolist.get(i).getRent_startdate())
+						.rent_enddate(dtolist.get(i).getRent_enddate())
+						.rent_option1(dtolist.get(i).getRent_option1())
+						.rent_option2(dtolist.get(i).getRent_option2())
+						.rent_price(dtolist.get(i).getRent_price())
+						.rent_paytype(dtolist.get(i).getRent_paytype())
+						.rent_paystate(dtolist.get(i).getRent_paystate())
+						.rent_state(0)
+						.rent_memo(dtolist.get(i).getRent_memo())
+						.rent_dummy(false)
+						.rent_diffdate(Long.valueOf(Days).intValue())
+						.build();						
+				// 원본 데이터 맵에 추가
+				resultmap.put(String.valueOf(dtolist.get(i).getRent_startdate()), origindto);
+				System.out.println(Days+"일차");
+				
 				// 더미데이터를 추가할 경우
 				if(varmap.get("dummy").equals("1")) {
 					if(Days>=1) {
 						LocalDate startdayLocal = dtolist.get(i).getRent_startdate();
 						LocalDate enddayLocal = dtolist.get(i).getRent_enddate();
-						for(int j=startdayLocal.getDayOfMonth()+1; j<=enddayLocal.getDayOfMonth(); j++) {
-							String keydate = String.valueOf(startdayLocal.getYear()+"-"+String.format("%02d",startdayLocal.getMonthValue())+"-"+String.format("%02d", j));
+						for(int j=1; j<=Days; j++) {
+							// String keydate = String.valueOf(startdayLocal.getYear()+"-"+String.format("%02d",startdayLocal.getMonthValue())+"-"+String.format("%02d", j));
+							String keydate = String.valueOf(startdayLocal.plusDays(j));
 							System.out.println(keydate);
 							dtolist.get(i).setRent_dummy(true);
 							resultmap.put(keydate, dtolist.get(i));
@@ -130,6 +154,22 @@ public class RentServiceImpl implements RentService {
 	public void remove(int rent_id) {
 		rentMapper.delete(rent_id);
 		
+	}
+
+	@Override
+	public List<RentDTO> getTodayStart(String today) {
+		List<RentDTO> dtolist = rentMapper.selectTodayStart(today).stream()
+				.map(vo -> modelMapper.map(vo, RentDTO.class))
+				.collect(Collectors.toList());
+		return dtolist;
+	}
+
+	@Override
+	public List<RentDTO> getTodayEnd(String today) {
+		List<RentDTO> dtolist = rentMapper.selectTodayEnd(today).stream()
+				.map(vo -> modelMapper.map(vo, RentDTO.class))
+				.collect(Collectors.toList());
+		return dtolist;
 	}
 
 }

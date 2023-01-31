@@ -91,6 +91,12 @@ public class AdminController {
 		return "redirect:/admin/car/list";
 	}
 	/*========================================================================================== ¿¹¾à */
+	@GetMapping("/rent/today")
+	public void rentTodayGET(Model model) {
+		System.out.println("<Admin Controller> rent today GET");
+		model.addAttribute("startlist", rentService.getTodayStart(dateProcess.today()));
+		model.addAttribute("endlist", rentService.getTodayEnd(dateProcess.today()));
+	}
 	@GetMapping("/rent/calendar")
 	public void rentCalendarGET(Model model, String curYear, String curMon) {
 		System.out.println("<Admin Controller> rent list GET");

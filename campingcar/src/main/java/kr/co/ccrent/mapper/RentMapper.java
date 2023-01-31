@@ -19,4 +19,8 @@ public interface RentMapper {
 	void updateState(RentVO rentVO);
 	// 예약글 삭제
 	void delete(int rent_id);
+	
+	// 오늘 출고, 반납 차량
+	List<RentVO> selectTodayStart(String today);
+	List<RentVO> selectTodayEnd(String today);
 }

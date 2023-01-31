@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ page import="java.util.*" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
@@ -125,6 +126,7 @@ function wdayReplace(wday){
 <!-- ================================================== -->
 
 <fmt:formatNumber var="curMon" minIntegerDigits="2" value="${curMon+1}" type="number"/>
+<c:set var="firstday" value="${curYear}-${curMon}-01" />
 <div class="rent_calendar">
 
 <table class="date">
@@ -173,16 +175,22 @@ function wdayReplace(wday){
 			<c:set var="indexdate" value="${curYear}${curMon}${day}" />
 			<c:set var="dto" value="${maplist[car.car_regid][keydate] }" />
 			<c:set var="length" value="${dto.rent_diffdate+1}" />
+			<!-- 이전달부터 시작하는 예약인지 아닌지 -->
+			<c:set var="isfirstday" value="${fn:indexOf(keydate, '-01')}" /> <!-- 키데이트가 월의 1일이면 7을 반환 -->
+			<c:set var="isprevstart" value="0" />
+			<c:if test="${dto.rent_startdate<firstday and isfirstday==7 }">
+				<c:set var="isprevstart" value="1" />
+				<c:set var="length" value="${fn:substring(dto.rent_enddate,8,13) }" />
+			</c:if>
 			
 			
 			<c:choose>
 				<c:when test="${not empty dto.rent_id}">
-				<c:if test="${dto.rent_startdate eq keydate }">
+				<c:if test="${dto.rent_startdate eq keydate or (isprevstart==1) }">
 					<td <c:if test="${length>1 }">colspan="${length }"</c:if>  class="filledtd">
 						<div style="width:${length*100 }px" class="filled" onclick="location.href='read?rent_id=${dto.rent_id }&listtype=calendar';">
 							<p>예약 완료</p>
 							<p class="name">${dto.rent_name }</p>
-							<!-- <p>${dto.rent_id }</p> -->
 						</div>
 						<div class="data" onclick="location.href='read?rent_id=${dto.rent_id }';">
 							<table width="100%">

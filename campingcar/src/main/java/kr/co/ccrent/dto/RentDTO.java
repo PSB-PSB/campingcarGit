@@ -1,5 +1,6 @@
 package kr.co.ccrent.dto;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 
 import kr.co.ccrent.domain.CarVO;
@@ -31,6 +32,7 @@ public class RentDTO {
 	private int rent_paystate;
 	private int rent_state;
 	private String rent_memo;
+	private Timestamp rent_datetime;
 	private boolean rent_dummy;
 	private CarVO car;	
 }

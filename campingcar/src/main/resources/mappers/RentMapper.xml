@@ -9,8 +9,8 @@
 	</select>
 	
 	<insert id="insert" parameterType="kr.co.ccrent.domain.RentVO">
-		insert into rent (car_regid, user_id, rent_name, rent_phone1, rent_phone2, rent_startdate, rent_enddate, rent_option1, rent_option2, rent_price, rent_paytype, rent_paystate, rent_state, rent_memo) 
-		values (#{car_regid}, #{user_id}, #{rent_name}, #{rent_phone1}, #{rent_phone2}, #{rent_startdate}, #{rent_enddate}, #{rent_option1}, #{rent_option2}, #{rent_price}, #{rent_paytype}, #{rent_paystate}, #{rent_state}, #{rent_memo})
+		insert into rent (car_regid, user_id, rent_name, rent_phone1, rent_phone2, rent_startdate, rent_enddate, rent_option1, rent_option2, rent_price, rent_paytype, rent_paystate, rent_state, rent_memo, rent_datetime) 
+		values (#{car_regid}, #{user_id}, #{rent_name}, #{rent_phone1}, #{rent_phone2}, #{rent_startdate}, #{rent_enddate}, #{rent_option1}, #{rent_option2}, #{rent_price}, #{rent_paytype}, #{rent_paystate}, #{rent_state}, #{rent_memo}, now())
 	</insert>
 	
 	<select id="selectAll" resultType="kr.co.ccrent.domain.RentVO">
@@ -55,7 +55,8 @@
 
 	<select id="selectByCarId" parameterType="HashMap" resultType="kr.co.ccrent.domain.RentVO">
 		select * from rent 
-		<![CDATA[where car_regid = #{car_regid} and rent_startdate >= #{firstday} and rent_startdate <= #{lastday}]]>
+		<!-- <![CDATA[where car_regid = #{car_regid} and rent_startdate >= #{firstday} and rent_startdate <= #{lastday}]]>  -->
+		<![CDATA[where car_regid = #{car_regid} and ((rent_enddate >= #{firstday} and rent_enddate <= #{lastday}) or (rent_startdate >= #{firstday} and rent_startdate <= #{lastday})) ]]>
 	</select>
 	
 	<!--<select id="selectOne" resultType="kr.co.ccrent.domain.RentVO">
@@ -102,5 +103,13 @@
 		delete from rent where rent_id = #{rent_id}
 	</delete>
 
-
+	<!-- 오늘의 출고, 반납 차량 -->
+	<select id="selectTodayStart" parameterType="String" resultMap="RentVO">
+		select r.*, c.car_regid, c.car_name, c.car_modelname from rent r join car c on r.car_regid = c.car_regid
+		where r.rent_startdate = #{today} order by rent_id desc
+	</select>
+	<select id="selectTodayEnd" parameterType="String" resultMap="RentVO">
+		select r.*, c.car_regid, c.car_name, c.car_modelname from rent r join car c on r.car_regid = c.car_regid
+		where r.rent_enddate = #{today} order by rent_id desc
+	</select>
 </mapper>
