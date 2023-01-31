@@ -12,6 +12,23 @@
 <title>게시판 목록</title>
 <%@ include file="../include/plugin.jsp" %>
 <link href="${contextPath}/resources/css/sub_all.css" rel="stylesheet" />
+
+<style>
+.mmsize{
+width: 1150px;
+}
+.tablemm{
+width: 450px;
+padding-left: 5px;
+}
+.thmm{
+width:120px;
+}
+
+</style>
+
+
+
 </head>
 <body>
 
@@ -82,6 +99,79 @@
 </table>
 <button onclick="location.href='list';">목록</button>
 <button onclick="location.href='register?car_regid=${dto.car_regid }';">수정</button>
+
+<!-- 모달&모달테스트 -->
+		
+		
+		<c:if test="${repair.repair_no == null }">
+		<button  onclick="emptyrepair()">차량정비 내역보기</button>
+		</c:if>
+		<c:if test="${repair.repair_no !=null }">
+		<button data-bs-toggle="modal" href="#exampleModalToggle" role="button">차량정비 내역보기</button>
+		</c:if>
+		<script>
+		function emptyrepair() {
+			
+			alert('차량 정비내역이 없습니다.')
+			
+		}
+		</script>
+		
+		
+		<div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+		  <div class="modal-dialog modal-dialog-centered">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h1 class="modal-title fs-5 " id="exampleModalLabel" >차량정비 정보</h1>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		      </div>
+		      <div class="modal-body">
+		     	
+		        <table class="table table-bordered text-center tablemm";>
+		        	<tr>
+		        		<th class="table-dark thmm">정비소명</th>
+		        		<th  id="garage_name" name="garage_name" >${repair.garage_name } </th>
+		        	</tr>
+		        	<tr>
+		        		<th class="table-dark thmm">차량명</th>
+		        		<th id="car_name" name="car_name">${dto.car_name } </th>
+		        	</tr>
+		        	<tr>
+		        		<th class="table-dark thmm">렌트회사</th>
+		        		<th id="comp_name" name ="comp_name">${repair.comp_name} </th>
+		        	</tr>
+		        	<tr>
+		        		<th class="table-dark thmm">정비내역</th>
+		        		<th id="repair_info" name="repair_info">${repair.repair_info} </th>
+		        	</tr>
+		        	<tr>
+		        		<th class="table-dark thmm">정비일자</th>
+		        		<th id="repair_date" name="repair_date"><c:out value=" ${repair.repair_date}"></c:out></th>
+		        	</tr>
+		        	<tr>
+		        		<th class="table-dark thmm">정비가격(원)</th>
+		        		<th id="repair_price" name="repair_price">${repair.repair_price}</th>
+		        	</tr>
+		        	<tr>
+		        		<th class="table-dark thmm">추가정비내역</th>
+		        		<th id="repair_addinfo" name="repair_addinfo">${repair.repair_addinfo } </th>
+		        	</tr>
+		        	
+		        </table>
+		       
+		     
+		     
+		     
+		      </div>
+		      <div class="modal-footer">		        		
+		        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">확인</button>		        		
+		      </div>
+		  </div>
+		  </div>
+		  </div>
+		  
+
+
 <form action="remove" method="post">
 	<input type="text" name="car_regid" value="${dto.car_regid }" />
 	<button type="submit">삭제</button>
