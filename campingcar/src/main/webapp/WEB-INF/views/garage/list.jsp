@@ -21,7 +21,7 @@ window.addEventListener('load',function(){
 			var $keyword = $('#keyword');
 			$('#searchBtn').on('click',function(){
 				var keywordVal = $keyword.val();
-				var url = "listcri?page=1"
+				var url = "list?page=1"
 					+ "&perPageNum=" + "${pageMaker.cri.perPageNum}"			
 					+ "&keyword=" + encodeURIComponent(keywordVal);
 				window.location.href = url;			
@@ -117,8 +117,8 @@ geocoder.addressSearch(a, function(result, status) {
 				<th style="width: 50px;">위치</th>
 			</tr>
 		  </thead>
-	
 	<c:forEach items="${list }" var="GarageDTO">
+		<c:if test="${GarageDTO.state_modify == 1 }">
 		<tr id=resultgarage>
 			
 			<!-- 
@@ -157,6 +157,7 @@ geocoder.addressSearch(a, function(result, status) {
 			</th>
 			
 		</tr>
+	</c:if>
 	</c:forEach>
 		<c:if test="${empty list}">
 		<th colspan="6">검색결과가 없습니다.</th>	

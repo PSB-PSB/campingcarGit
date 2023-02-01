@@ -49,6 +49,7 @@ public class GarageServiceImpl implements GarageService{
 	public void garage_register(GarageDTO dto) throws Exception {
 		garageDao.garage_insert(dto);
 	}	
+	
 	//정비소 등록 리스트보기 관리자
 	@Override
 	public List<GarageDTO> garage_get_reg(Criteria cri) {

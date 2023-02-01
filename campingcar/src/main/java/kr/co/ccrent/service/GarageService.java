@@ -20,6 +20,7 @@ public interface GarageService {
 	//정비소 수정하기(관리자)
 	public int garage_modify(GarageDTO dto);
 	public GarageDTO garage_modify_get(int garage_no); 	//등록신청한 정비소 no갖고오기
+	
 	//정비소 삭제하기(관리자)
 	public int garage_remove(int garage_no); 
 	

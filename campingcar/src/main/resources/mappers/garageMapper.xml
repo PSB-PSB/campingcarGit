@@ -66,16 +66,16 @@
 	<!-- 정비소 등록신청 리스트 카운트 -->
 	<select id="garage_select_regcount" resultType="int">
 	 		<![CDATA[
-	 		select count(garage_state)
+	 		select count(state_modify)
 	 		from garage
-	 		where state_modify > 0
+	 		where state_modify = 0
 	 		]]>
 	</select>
 
 	<!-- 정비소 등록승인(관리자) -->
 	<update id="garage_insert_admin" parameterType="kr.co.ccrent.dto.GarageDTO">
 		update garage		
-		set state_modify=#{state_modify}
+		set state_modify= 1
 		where garage_no	= #{garage_no}
 	</update>
 
