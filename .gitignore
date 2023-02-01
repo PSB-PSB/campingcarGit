@@ -50,6 +50,8 @@ local.properties
 root-context.xml
 web.xml
 servlet-context.xml
+MANIFEST.MF
+pom.properties
 
 # Code Recommenders
 .recommenders/
