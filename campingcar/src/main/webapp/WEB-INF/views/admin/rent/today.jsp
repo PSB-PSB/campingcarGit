@@ -71,6 +71,9 @@
 		<div>
 			<table class="table table-bordered" width="50%" onclick="location.href='read?rent_id=${dto.rent_id}&listtype=today';">
 			<tr>
+				<td colspan="4"></td>
+			</tr>
+			<tr>
 				<th>차량 번호</th>
 				<td>${dto.car_regid }</td>
 			</tr>			
