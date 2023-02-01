@@ -47,6 +47,7 @@ local.properties
 
 # STS (Spring Tool Suite)
 .springBeans
+pom.xml
 root-context.xml
 web.xml
 servlet-context.xml
