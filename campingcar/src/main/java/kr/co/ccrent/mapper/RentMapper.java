@@ -15,4 +15,12 @@ public interface RentMapper {
 	List<RentVO> selectByCarId(HashMap<String, Object> varmap);
 	int selectCount(PageRequestDTO pageRequestDTO);
 	RentVO selectOne(int rent_id); // 글 1개 조회
+	// 예약 상태 업데이트
+	void updateState(RentVO rentVO);
+	// 예약글 삭제
+	void delete(int rent_id);
+	
+	// 오늘 출고, 반납 차량
+	List<RentVO> selectTodayStart(String today);
+	List<RentVO> selectTodayEnd(String today);
 }

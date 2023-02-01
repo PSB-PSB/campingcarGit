@@ -15,12 +15,14 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.ccrent.config.DateProcess;
-import kr.co.ccrent.dto.BoardDTO;
 import kr.co.ccrent.dto.CarDTO;
 import kr.co.ccrent.dto.PageRequestDTO;
+import kr.co.ccrent.dto.RentDTO;
+import kr.co.ccrent.dto.RepairDTO;
 import kr.co.ccrent.service.BoardFileService;
 import kr.co.ccrent.service.CarService;
 import kr.co.ccrent.service.RentService;
+import kr.co.ccrent.service.RepairService;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -32,6 +34,7 @@ public class AdminController {
 	private final RentService rentService;
 	private final BoardFileService boardFileService;
 	private final DateProcess dateProcess;
+	private final RepairService repairService;
 	
 	@GetMapping(value={"/",""})
 	public String indexGET() {
@@ -71,6 +74,7 @@ public class AdminController {
 	@GetMapping("/car/list")
 	public void carListGET(Model model, PageRequestDTO pageRequestDTO) {
 		System.out.println("<Admin Controller> car list GET");
+		System.out.println(pageRequestDTO);
 		// model.addAttribute("dtolist", carService.getAll());
 		model.addAttribute("responseDTO", carService.getList(pageRequestDTO));
 	}
@@ -82,28 +86,63 @@ public class AdminController {
 		fieldmap.put("bo_table", "car");
 		fieldmap.put("wr_id", car_regid);		
 		model.addAttribute("filelist", boardFileService.getFileList(fieldmap));
+		//repairì ‘ê·¼(ë“±ë¡/ì¡°íšŒ/ìˆ˜ì •ê°€ëŠ¥í•˜ê²Œ DTOì ‘ê·¼)
+		//ì •ë¹„ë‚´ì—­ í™•ì¸í•˜ê¸°
+		System.out.println("==<admin Controller> repairData = read");
+		RepairDTO dto = repairService.repair_getOne(car_regid); 
+		model.addAttribute("repair",dto);
 	}
+	// ì •ë¹„ë‚´ì—­ ë“±ë¡ form
+	@PostMapping(value = "/car/repair/register")
+	public String repair_register(RepairDTO dto, HttpServletRequest req, int car_regid) throws Exception {
+		req.setCharacterEncoding("utf-8");
+		System.out.println("==<admin Controller> repairData = register");
+		repairService.repair_register(dto);
+		return "redirect:/admin/car/read?car_regid=" + car_regid;
+	}
+	//ì •ë¹„ì†Œ ì •ë³´ìˆ˜ì • ì‹¤í–‰
+	@PostMapping(value = "/car/read")
+	public String repair_update(RepairDTO dto, int car_regid) throws Exception{
+			
+		repairService.repair_modify(dto);
+		System.out.println("==<admin Controller> repairData = update");
+			
+		return "redirect:/admin/car/read?car_regid=" + car_regid;
+	}
+	//ìº í•‘ì¹´ ì •ë¹„ë‚´ì—­ ì‚­ì œ
+	@GetMapping(value="/car/repair/remove")
+	public String repair_remove(int car_regid) {			
+		repairService.repair_remove(car_regid);
+		System.out.println("==<admin Controller> repairData = remove");
+		return "redirect:/admin/car/read?car_regid=" + car_regid;
+	}	
 	@PostMapping("/car/remove")
 	public String removePOST(int car_regid) {
 		System.out.println("<Controller> remove POST ==============================");
 		carService.remove(car_regid);
 		return "redirect:/admin/car/list";
 	}
-	/*========================================================================================== ¿¹¾à */
+	
+	/*========================================================================================== ì˜ˆì•½ */
+	@GetMapping("/rent/today")
+	public void rentTodayGET(Model model) {
+		System.out.println("<Admin Controller> rent today GET");
+		model.addAttribute("startlist", rentService.getTodayStart(dateProcess.today()));
+		model.addAttribute("endlist", rentService.getTodayEnd(dateProcess.today()));
+	}
 	@GetMapping("/rent/calendar")
 	public void rentCalendarGET(Model model, String curYear, String curMon) {
 		System.out.println("<Admin Controller> rent list GET");
 		model.addAttribute("carlist", carService.getAll());
-		HashMap<String, Object> datemap = dateProcess.dateCalculate(curYear, curMon, 0); // ÇöÀç ³â, ¿ù ±âÁØ ³¯Â¥ °è»ê	
-		HashMap<Integer, Object> maplist = new HashMap<>(); // ¿¹¾à ¸®½ºÆ® ¸Ê
-		HashMap<String, Object> varmap = new HashMap<>(); // ¸Å°³º¯¼ö ¸Ê 
-		List<CarDTO> carlist = carService.getAll(); // Â÷·® ¸ñ·Ï ºÒ·¯¿À±â
+		HashMap<String, Object> datemap = dateProcess.dateCalculate(curYear, curMon, 0);	
+		HashMap<Integer, Object> maplist = new HashMap<>();
+		HashMap<String, Object> varmap = new HashMap<>();
+		List<CarDTO> carlist = carService.getAll();
 		System.out.println(datemap.get("firstday"));
 		System.out.println(datemap.get("lastday"));
 		for(int i=0; i<carlist.size(); i++) {
 			varmap.clear();
 			varmap.put("car_regid", carlist.get(i).getCar_regid());
-			System.out.println("Â÷¹øÈ£ : "+carlist.get(i).getCar_regid());
 			varmap.put("firstday", datemap.get("firstday"));
 			varmap.put("lastday", datemap.get("lastday"));			
 			varmap.put("dummy", "1");			
@@ -114,12 +153,25 @@ public class AdminController {
 	@GetMapping("/rent/list")
 	public void rentListGET(Model model, PageRequestDTO pageRequestDTO) {
 		System.out.println("<Admin Controller> list GET");
-		// model.addAttribute("dtolist", rentService.getAll());
+		System.out.println(pageRequestDTO);
 		model.addAttribute("responseDTO", rentService.getList(pageRequestDTO));
 	}	
 	@GetMapping("/rent/read")
 	public void rentReadGET(Model model, int rent_id) {
 		model.addAttribute("dto", rentService.getOne(rent_id));
+	}
+	@PostMapping("/rent/read")
+	public String rentReadPost(RentDTO rentDTO, String listtype) {
+		System.out.println("<Admin Controller> rent read POST");
+		System.out.println(rentDTO);
+		rentService.modifyState(rentDTO);
+		return "redirect:/admin/rent/read?rent_id="+rentDTO.getRent_id()+"&listtype="+listtype;	
+	}
+	@PostMapping("/rent/remove")
+	public String rentRemovePOST(String listtype, int rent_id) {
+		System.out.println("<Admin Controller> rent remove POST");
+		rentService.remove(rent_id);
+		return "redirect:/admin/rent/"+listtype;
 	}
 	
 }

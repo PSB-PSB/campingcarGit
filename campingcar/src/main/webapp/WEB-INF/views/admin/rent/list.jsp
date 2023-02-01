@@ -4,6 +4,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ page import="java.util.*" %>
 <%@ page import="java.text.SimpleDateFormat" %>
+<%@ include file="category.jsp" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <c:set var="title" value="목록형 예약 현황" />
 
@@ -30,6 +31,16 @@
 <!-- ================================================== -->
 
 <div class="board_list">
+
+<form action="list" method="get">
+
+<div class="category">
+	<a class="btn btn-outline-secondary" href="list">전체 목록</a>
+	<c:forEach items="${cateArr }" var="cate">
+		<a class="btn btn-outline-secondary" href="list?category=${cate.key }" role="button">${cate.value }</a>
+	</c:forEach>
+</div>
+
 <table class="table table-bordered table-hover center">
 <colgroup>
 </colgroup>
@@ -37,7 +48,7 @@
 <tr class="table-secondary">
 	<th>#</th>
 	<th>차량</th>
-	<th>사용자 ID</th>
+	<th>예약자</th>
 	<th>필수 연락처</th>
 	<th>예비 연락처</th>
 	<th>차량 출고일</th>
@@ -51,10 +62,10 @@
 </thead>
 <tbody>
 <c:forEach items="${responseDTO.dtoList }" var="dto">
-<tr onclick="location.href='read?rent_id=${dto.rent_id}';">
+<tr onclick="location.href='read?rent_id=${dto.rent_id}&listtype=list';">
 	<td>${dto.rent_id }</td>	
 	<td>${dto.car_regid }</td>	
-	<td>${dto.user_id }</td>	
+	<td>${dto.rent_name }</td>	
 	<td>${fn:substring(dto.rent_phone1,0,3) }-${fn:substring(dto.rent_phone1,3,7) }-${fn:substring(dto.rent_phone1,7,11) }</td>	
 	<td>${fn:substring(dto.rent_phone2,0,3) }-${fn:substring(dto.rent_phone2,3,7) }-${fn:substring(dto.rent_phone2,7,11) }</td>	
 	<td>${dto.rent_startdate }</td>	
@@ -69,12 +80,7 @@
 		</c:choose>	
 	</td>	
 	<td>
-		<c:choose>
-			<c:when test="${dto.rent_paystate==0 }"><p class="state type01">결제 대기</p></c:when>
-			<c:when test="${dto.rent_paystate==1 }"><p class="state type02">결제 완료</p></c:when>
-			<c:when test="${dto.rent_paystate==2 }"><p class="state type03">출고 완료</p></c:when>
-			<c:when test="${dto.rent_paystate==3 }"><p class="state type04">반납 완료</p></c:when>
-		</c:choose>
+		<p class="state type0${dto.rent_paystate }">${cateArr[dto.rent_paystate] }</p>
 	</td>	
 </tr>
 </c:forEach>
@@ -95,6 +101,27 @@
 	 	</c:if>
 	</ul>
 </nav>
+
+<input type="hidden" name="size" value="${pageRequestDTO.size }" />
+<div class="search">
+	<input type="checkbox" name="types" value="rent_name" ${pageRequestDTO.checkType("rent_name")?"checked":"" } /> 예약자
+	<input type="checkbox" name="types" value="rent_phone1" ${pageRequestDTO.checkType("rent_phone1")?"checked":"" } /> 핸드폰 번호
+	<input type="text" name="keyword" class="form-control" value="${pageRequestDTO.keyword }" />
+	차량 출고일
+	<input type="date" name="from" class="form-control" value="${pageRequestDTO.from }" />
+	<input type="date" name="to" class="form-control" value="${pageRequestDTO.to }" />
+	예약 상태
+	<select name="category">
+		<option value="">선택</option>
+		<option value="0" ${pageRequestDTO.category eq '0'?"selected":"" }>결제 대기</option>
+		<option value="1" ${pageRequestDTO.category eq '1'?"selected":"" }>결제 완료</option>
+		<option value="2" ${pageRequestDTO.category eq '2'?"selected":"" }>출고 대기</option>
+		<option value="3" ${pageRequestDTO.category eq '3'?"selected":"" }>출고 완료</option>
+		<option value="4" ${pageRequestDTO.category eq '4'?"selected":"" }>반납 완료</option>
+	</select>
+	<button type="submit">검색</button>
+</div>
+</form>
 
 <script>
 document.querySelector(".pagination").addEventListener("click", function(e){

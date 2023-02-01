@@ -1,6 +1,7 @@
 package kr.co.ccrent.dto;
 
-import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.util.Arrays;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -32,8 +33,9 @@ public class PageRequestDTO { // 페이징 기본 값을 설정하는 DTO, skip값도 계산
 	private String link;
 	private String[] types;
 	private String keyword;
-	private Timestamp from;
-	private Timestamp to;
+	private String category;
+	private LocalDate from;
+	private LocalDate to;
 	
 	public int getSkip() {
 		return (page - 1) * this.size;
@@ -47,5 +49,12 @@ public class PageRequestDTO { // 페이징 기본 값을 설정하는 DTO, skip값도 계산
 			link = builder.toString();
 		}
 		return link;
+	}
+	
+	public boolean checkType(String type) {
+		if(types==null || types.length==0) {
+			return false;
+		}
+		return Arrays.stream(types).anyMatch(type::equals);
 	}
 }

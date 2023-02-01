@@ -80,7 +80,8 @@ String limitdate = sdf.format(lastcal.getTime());
 	</div>
 	<div class="input-group">
 		<span class="input-group-text">예약자</span>
-		<input type="text" class="form-control" name="user_id" value="" required />
+		<input type="hidden" name="user_id" value="user01" />
+		<input type="text" class="form-control" name="rent_name" value="" required />
 	</div>
 	<div class="input-group">
 		<span class="input-group-text">연락처</span>

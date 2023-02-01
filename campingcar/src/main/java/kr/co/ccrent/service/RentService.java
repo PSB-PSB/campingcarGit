@@ -13,5 +13,12 @@ public interface RentService {
 	List<RentDTO> getAll();
 	PageResponseDTO<RentDTO> getList(PageRequestDTO pageRequestDTO);
 	HashMap<String, RentDTO> getByCarId(HashMap<String,Object> varmap);
-	RentDTO getOne(int rent_id); 
+	RentDTO getOne(int rent_id);
+	// 상태 변경
+	void modifyState(RentDTO rentDTO);
+	void remove(int rent_id);
+	
+	// 오늘의 출고, 반납 차량
+	List<RentDTO> getTodayStart(String today);
+	List<RentDTO> getTodayEnd(String today);
 }

@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import kr.co.ccrent.dto.CarDTO;
+import kr.co.ccrent.dto.RepairDTO;
 import kr.co.ccrent.service.BoardFileService;
 import kr.co.ccrent.service.CarService;
+import kr.co.ccrent.service.RepairService;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -20,6 +22,7 @@ public class CarController {
 
 	private final CarService carService;
 	private final BoardFileService boardFileService;
+	private final RepairService repairService;
 	
 	@GetMapping("/register")
 	public void registerGET(Model model, String car_regid) {
@@ -59,6 +62,14 @@ public class CarController {
 		fieldmap.put("bo_table", "car");
 		fieldmap.put("wr_id", car_regid);
 		model.addAttribute("filelist", boardFileService.getFileList(fieldmap));		
+		
+		
+		//repair접근(회원용 조회 DTO접근)
+		System.out.println("==<Controller> repairData = read");
+		RepairDTO dto = repairService.repair_getOne(car_regid); 
+		model.addAttribute("repair",dto);
+		
+		
 	}
 	@PostMapping("/remove")
 	public String removePOST(int car_regid) {

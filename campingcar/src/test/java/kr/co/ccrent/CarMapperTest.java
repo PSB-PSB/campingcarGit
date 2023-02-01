@@ -66,7 +66,7 @@ public class CarMapperTest {
 		carMapper.update(carVO);	
 	}
 	
-	@Test
+	// @Test
 	public void selectListTest() {
 		PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
 				.page(1)
@@ -76,13 +76,25 @@ public class CarMapperTest {
 		volist.forEach(vo -> System.out.println(vo));
 	}
 	
-	@Test
+	// @Test
 	public void selectCountTest() {
 		PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
 				.page(1)
 				.size(10)
 				.build();		
 		System.out.println(carMapper.selectCount(pageRequestDTO));
+	}
+	
+	@Test
+	public void testSelectSearch() {
+		PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+				.page(1)
+				.size(10)
+				.types(new String[] {"car_name","car_modelname"})
+				.keyword("Ä·ÇÎÄ«")
+				.build();		
+		List<CarVO> volist = carMapper.selectList(pageRequestDTO);
+		volist.forEach(vo -> System.out.println(vo));		
 	}
 	
 	

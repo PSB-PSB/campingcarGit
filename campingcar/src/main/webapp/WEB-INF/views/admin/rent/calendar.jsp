@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ page import="java.util.*" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
@@ -61,6 +62,7 @@ pageContext.setAttribute("nextMon", nextMon);
 <link href="${contextPath}/resources/css/admin/admin_all.css" rel="stylesheet" />
 
 <style>
+#wrap {padding:40px 0px 0px 240px;}
 table, th, td {border-spacing:0px !important; border:none; border-collapse:collapse; margin:0; padding:0;}
 .rent_calendar h3 {padding:0px 0px 30px 0px;}
 .rent_calendar .row {clear:both; width:3360px; height:100px; position:relative; padding:0 !important; --bs-gutter-x:0;}
@@ -79,6 +81,8 @@ table, th, td {border-spacing:0px !important; border:none; border-collapse:colla
 .content td {position:relative;}
 .content td div {width:100px; height:100px; border:1px solid #c8c8c8; border-left:none; border-top:none; padding:10px; margin:0; color:#787878; text-align:center; position:relative; z-index:1;}
 .content .filled {background:#0d6efd; border:1px solid #005be0;  border-top:none; color:#ffffff; text-align:left; cursor:pointer;}
+.content .filled p {color:#9ec5fe;}
+.content .filled .name {color:#ffffff; font-weight:bold;}
 .content .disabled {background:#f0f0f0; border-color:#c8c8c8;  color:#c8c8c8;}
 .content .data {cursor:pointer; display:none; position:absolute; z-index:2; width:250px; min-height:300px; background:#ffffff; left:50px; top:50px; border-radius:5px; border:1px solid #dcdcdc; box-shadow:10px 10px 10px rgba(0,0,0,0.2); padding:0;}
 .content .data thead th {padding:10px 0px 10px 15px; text-align:left;}
@@ -109,22 +113,21 @@ function wdayReplace(wday){
 	<%@ include file="../include/sidebar.jsp" %>
 	<!-- // #sidebar end -->
 	
-	<!-- #topmenu start -->
-	<%@ include file="../include/topmenu.jsp" %>
-	<!-- // #topmenu end -->	
+	<div id="topmenu">
+		<h2>
+			<a href="?curYear=${prevYear}&curMon=${prevMon}" class="btn btn-outline-secondary"><i class="fa-solid fa-angle-left"></i></a>
+			<%=curYear%>년 ${curMon+1}월
+			<a href="?curYear=${nextYear}&curMon=${nextMon}" class="btn btn-outline-secondary"><i class="fa-solid fa-angle-right"></i></a>
+		</h2>
+		
+	</div>
 	
 	<div id="wrap">
 <!-- ================================================== -->
 
-<div class="rent_calendar">
-
-<h3>
-	<a href="?curYear=${prevYear}&curMon=${prevMon}" class="btn btn-outline-secondary"><i class="fa-solid fa-angle-left"></i></a>
-	<%=curYear%>년 ${curMon+1}월
-	<a href="?curYear=${nextYear}&curMon=${nextMon}" class="btn btn-outline-secondary"><i class="fa-solid fa-angle-right"></i></a>
-</h3>
 <fmt:formatNumber var="curMon" minIntegerDigits="2" value="${curMon+1}" type="number"/>
-
+<c:set var="firstday" value="${curYear}-${curMon}-01" />
+<div class="rent_calendar">
 
 <table class="date">
 <thead>
@@ -171,16 +174,23 @@ function wdayReplace(wday){
 			<c:set var="keydate" value="${curYear}-${curMon}-${day}" />
 			<c:set var="indexdate" value="${curYear}${curMon}${day}" />
 			<c:set var="dto" value="${maplist[car.car_regid][keydate] }" />
-			<c:set var="length" value="${dto.rent_diffdate}" />
+			<c:set var="length" value="${dto.rent_diffdate+1}" />
+			<!-- 이전달부터 시작하는 예약인지 아닌지 -->
+			<c:set var="isfirstday" value="${fn:indexOf(keydate, '-01')}" /> <!-- 키데이트가 월의 1일이면 7을 반환 -->
+			<c:set var="isprevstart" value="0" />
+			<c:if test="${dto.rent_startdate<firstday and isfirstday==7 }">
+				<c:set var="isprevstart" value="1" />
+				<c:set var="length" value="${fn:substring(dto.rent_enddate,8,13) }" />
+			</c:if>
 			
 			
 			<c:choose>
 				<c:when test="${not empty dto.rent_id}">
-				<c:if test="${dto.rent_startdate eq keydate }">
+				<c:if test="${dto.rent_startdate eq keydate or (isprevstart==1) }">
 					<td <c:if test="${length>1 }">colspan="${length }"</c:if>  class="filledtd">
-						<div style="width:${length*100 }px" class="filled" onclick="location.href='read?rent_id=${dto.rent_id }';">
-							예약 완료
-							<p>${dto.rent_id }</p>
+						<div style="width:${length*100 }px" class="filled" onclick="location.href='read?rent_id=${dto.rent_id }&listtype=calendar';">
+							<p>예약 완료</p>
+							<p class="name">${dto.rent_name }</p>
 						</div>
 						<div class="data" onclick="location.href='read?rent_id=${dto.rent_id }';">
 							<table width="100%">
