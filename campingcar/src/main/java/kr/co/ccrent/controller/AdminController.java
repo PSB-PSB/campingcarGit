@@ -95,50 +95,43 @@ public class AdminController {
 		fieldmap.put("wr_id", car_regid);		
 		model.addAttribute("filelist", boardFileService.getFileList(fieldmap));
 		//repair접근(등록/조회/수정가능하게 DTO접근)
-		
-				//정비내역 확인하기
-				System.out.println("==<admin Controller> repairData = read");
-				RepairDTO dto = repairService.repair_getOne(car_regid); 
-				model.addAttribute("repair",dto);
-				
+		//정비내역 확인하기
+		System.out.println("==<admin Controller> repairData = read");
+		RepairDTO dto = repairService.repair_getOne(car_regid); 
+		model.addAttribute("repair",dto);
 	}
 	// 정비내역 등록 form
-			@PostMapping(value = "/car/repair/register")
-			public String repair_register(RepairDTO dto, HttpServletRequest req, int car_regid) throws Exception {
-				req.setCharacterEncoding("utf-8");
-				System.out.println("==<admin Controller> repairData = register");
-		
-				repairService.repair_register(dto);
-				return "redirect:/admin/car/read?car_regid=" + car_regid;
-		
-			}
-		
-		
-			//정비소 정보수정 실행
-			@PostMapping(value = "/car/read")
-			public String repair_update(RepairDTO dto, int car_regid) throws Exception{
-				
-			repairService.repair_modify(dto);
-			System.out.println("==<admin Controller> repairData = update");
-				
-			return "redirect:/admin/car/read?car_regid=" + car_regid;
-		}
+	@PostMapping(value = "/car/repair/register")
+	public String repair_register(RepairDTO dto, HttpServletRequest req, int car_regid) throws Exception {
+		req.setCharacterEncoding("utf-8");
+		System.out.println("==<admin Controller> repairData = register");
+		repairService.repair_register(dto);
+		return "redirect:/admin/car/read?car_regid=" + car_regid;
+	}
+	//정비소 정보수정 실행
+	@PostMapping(value = "/car/read")
+	public String repair_update(RepairDTO dto, int car_regid) throws Exception{
 			
-			//캠핑카 정비내역 삭제
-			@GetMapping(value="/car/repair/remove")
-			public String repair_remove(int car_regid) {			
-				repairService.repair_remove(car_regid);
-				System.out.println("==<admin Controller> repairData = remove");
-				return "redirect:/admin/car/read?car_regid=" + car_regid;
-			}
+		repairService.repair_modify(dto);
+		System.out.println("==<admin Controller> repairData = update");
 			
+		return "redirect:/admin/car/read?car_regid=" + car_regid;
+	}
+	//캠핑카 정비내역 삭제
+	@GetMapping(value="/car/repair/remove")
+	public String repair_remove(int car_regid) {			
+		repairService.repair_remove(car_regid);
+		System.out.println("==<admin Controller> repairData = remove");
+		return "redirect:/admin/car/read?car_regid=" + car_regid;
+	}	
 	@PostMapping("/car/remove")
 	public String removePOST(int car_regid) {
 		System.out.println("<Controller> remove POST ==============================");
 		carService.remove(car_regid);
 		return "redirect:/admin/car/list";
 	}
-	/*========================================================================================== ���� */
+	
+	/*========================================================================================== 예약 */
 	@GetMapping("/rent/today")
 	public void rentTodayGET(Model model) {
 		System.out.println("<Admin Controller> rent today GET");
@@ -149,16 +142,15 @@ public class AdminController {
 	public void rentCalendarGET(Model model, String curYear, String curMon) {
 		System.out.println("<Admin Controller> rent list GET");
 		model.addAttribute("carlist", carService.getAll());
-		HashMap<String, Object> datemap = dateProcess.dateCalculate(curYear, curMon, 0); // ���� ��, �� ���� ��¥ ���	
-		HashMap<Integer, Object> maplist = new HashMap<>(); // ���� ����Ʈ ��
-		HashMap<String, Object> varmap = new HashMap<>(); // �Ű����� �� 
-		List<CarDTO> carlist = carService.getAll(); // ���� ��� �ҷ�����
+		HashMap<String, Object> datemap = dateProcess.dateCalculate(curYear, curMon, 0);	
+		HashMap<Integer, Object> maplist = new HashMap<>();
+		HashMap<String, Object> varmap = new HashMap<>();
+		List<CarDTO> carlist = carService.getAll();
 		System.out.println(datemap.get("firstday"));
 		System.out.println(datemap.get("lastday"));
 		for(int i=0; i<carlist.size(); i++) {
 			varmap.clear();
 			varmap.put("car_regid", carlist.get(i).getCar_regid());
-			System.out.println("����ȣ : "+carlist.get(i).getCar_regid());
 			varmap.put("firstday", datemap.get("firstday"));
 			varmap.put("lastday", datemap.get("lastday"));			
 			varmap.put("dummy", "1");			

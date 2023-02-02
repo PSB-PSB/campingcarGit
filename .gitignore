@@ -47,6 +47,12 @@ local.properties
 
 # STS (Spring Tool Suite)
 .springBeans
+pom.xml
+root-context.xml
+web.xml
+servlet-context.xml
+MANIFEST.MF
+pom.properties
 
 # Code Recommenders
 .recommenders/
