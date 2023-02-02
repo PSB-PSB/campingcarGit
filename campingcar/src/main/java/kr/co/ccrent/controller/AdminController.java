@@ -12,15 +12,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.ccrent.config.DateProcess;
 import kr.co.ccrent.dto.CarDTO;
+import kr.co.ccrent.dto.Criteria;
+import kr.co.ccrent.dto.GarageDTO;
+import kr.co.ccrent.dto.PageMaker;
 import kr.co.ccrent.dto.PageRequestDTO;
 import kr.co.ccrent.dto.RentDTO;
 import kr.co.ccrent.dto.RepairDTO;
 import kr.co.ccrent.service.BoardFileService;
 import kr.co.ccrent.service.CarService;
+import kr.co.ccrent.service.GarageService;
 import kr.co.ccrent.service.RentService;
 import kr.co.ccrent.service.RepairService;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +40,9 @@ public class AdminController {
 	private final BoardFileService boardFileService;
 	private final DateProcess dateProcess;
 	private final RepairService repairService;
+	private final GarageService garageService;
+	
+	
 	
 	@GetMapping(value={"/",""})
 	public String indexGET() {
@@ -173,5 +181,108 @@ public class AdminController {
 		rentService.remove(rent_id);
 		return "redirect:/admin/rent/"+listtype;
 	}
+	
+	
+	
+	//=======================================garage / 정비소	
+	
+//	정비소 등록 신청 리스트 전체목록 
+	@GetMapping(value = "/garage/register")
+	public ModelAndView garage_reglistAll(Criteria cri, Model model) throws Exception {
+
+		System.out.println("==<admin Controller> garage = registerlist");
+		ModelAndView mav = new ModelAndView();
+
+		//페이징처리
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(garageService.garage_get_regcount(cri));
+		model.addAttribute("pageMaker",pageMaker);		
+		
+		// 기능 수행		
+		List<GarageDTO> list = garageService.garage_get_reg(cri);
+		mav.addObject("garage_reglist", list);		
+		mav.setViewName("admin/garage/register");	
+				
+		return mav;
+	}
+	// 등록신청승인 (no갖고와서 insert하기)
+	@GetMapping(value = "garage/insert")
+	public String garage_register(Model model, HttpServletRequest req, int garage_no) throws Exception {
+
+		GarageDTO dto = garageService.garage_modify_get(garage_no); // garage_no 갖고오기
+		garageService.garage_register_admin(dto);
+		
+		System.out.println("==<admin Controller> garage = register success");
+		
+
+		return "redirect:/admin/garage/register";
+	}
+	
+	//정비소검색
+	@GetMapping(value="garage/list")
+	public void garage_updatelist(Criteria cri, Model model) throws Exception{
+		System.out.println("==<admin Controller> garage = list");
+		model.addAttribute("list", garageService.garage_get(cri));
+		
+		//페이징처리
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(garageService.garage_get_count(cri));
+		
+		model.addAttribute("pageMaker",pageMaker);
+		
+		
+	}
+	
+	
+	//정비소 정보수정 이동
+	@GetMapping(value="/garage/update")
+	public String garage_updatepage(int garage_no, Model model) throws Exception {
+		System.out.println("==<admin Controller> garage = update");
+		
+		GarageDTO dto = garageService.garage_modify_get(garage_no); //수정할 garage_no 갖고오기		
+		
+		model.addAttribute("dto",dto);
+	
+		return "/admin/garage/update";
+	}
+	
+	//정비소 정보수정 입력폼
+	@PostMapping(value = "/garage/update")
+	public String garage_update(GarageDTO dto, int garage_no) throws Exception{
+		
+		
+		garageService.garage_modify(dto);
+		System.out.println("==<admin Controller> garage = update success");
+		
+		return "redirect:/admin/garage/list?keyword=";
+		
+	}
+	
+		//정비소 등록신청탭 등록거부(삭제)
+		@GetMapping(value="/garage/delete")
+		public String garage_remove(int garage_no) {
+
+		
+		garageService.garage_remove(garage_no);
+		System.out.println("==<admin Controller> garage = registerRemove");
+		
+		return "redirect:/admin/garage/register";
+	}	
+		
+		
+		//정비소 수정 (정비소 삭제)
+		@GetMapping(value="/garage/update_delete")
+		public String garage_update_remove(int garage_no) {
+
+		
+		garageService.garage_remove(garage_no);
+		System.out.println("==<admin Controller> garage = registerRemove");
+		
+		return "redirect:/admin/garage/list?keyword=";
+	}	
+	
+	
 	
 }
